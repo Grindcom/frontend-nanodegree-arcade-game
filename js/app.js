@@ -20,12 +20,12 @@ Enemy.prototype.update = function(dt) {
     // Check to see if enemy has hit the wall
     if(this.x >= rightWall){
         // Move back to start
-        this.x = 0.1;
+        this.x = -10;
     } else {
-        this.x = ++this.x + (this.x*dt);
+        this.x = ++this.x;
     }
 
-    console.log("Enemy x: " + this.x);
+    // console.log("Enemy x: " + this.x);
 };
 
 // Draw the enemy on the screen, required method for game
@@ -65,6 +65,7 @@ Player.prototype.handleInput = function(key){
         }
         break;
         case 'up':
+        console.log("Up: " + this.y);
         // If not all the way up
         if(this.y > 0){
             // decrement y
@@ -94,7 +95,7 @@ Player.prototype.handleInput = function(key){
         }
         break;
         case 'jump':
-        this.x += 100;
+        this.y -= 100;
         break;
         default:
         console.log("nothing: " + key);
@@ -104,10 +105,14 @@ Player.prototype.handleInput = function(key){
 // Place all enemy objects in an array called allEnemies
 var allEnemies = [];
 for(var i = 0; i < 3 /*number of enemies*/; i++){
+    // Make a new enemy object
     allEnemies[i] = new Enemy();
+    // Place the enemy in a lane
     allEnemies[i].y = i*90 + 50;
-    allEnemies[i].x = 1;
-    console.log("allEnemies length: " + allEnemies.length + ", y:" + allEnemies[i].y);
+    // Randomly place the enemy on the x axis
+    allEnemies[i].x = (Math.random() * 1000) + 100;
+    // Log the x/y axis values
+    console.log("allEnemies length: " + allEnemies.length + ", x:" + allEnemies[i].x + ", y:" + allEnemies[i].y);
 }
 // Place the player object in a variable called player
 var player = new Player();
