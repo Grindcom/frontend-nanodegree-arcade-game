@@ -38,7 +38,7 @@ var randPos = function(){
 var Lane = function(t,b){
     this.topY = t;
     this.bottomY = b;
-    this.track = (b+t)/2;
+    this.track = ((b+t)/2)+15;
     this.safetyZone = "unknown";
 };
 
@@ -57,6 +57,7 @@ var Enemy = function() {
     this.sprite = 'images/enemy-bug.png';
     this.x = 0;
     this.y = 0;
+    this.lane = null;
 };
 
 // Update the enemy's position, required method for game
@@ -188,7 +189,7 @@ for(var i = 0; i < 3 /*number of enemies*/; i++){
     // Randomly place the enemy on the x axis
     allEnemies[i].x = randPos()*i;
     // Log the x/y axis values
-    console.log("allEnemies length: " + allEnemies.length + ", x:" + allEnemies[i].x + ", y:" + allEnemies[i].y);
+    // console.log("allEnemies length: " + allEnemies.length + ", x:" + allEnemies[i].x + ", y:" + allEnemies[i].y);
 }
 //
 // Place the player object in a variable called player
