@@ -19,11 +19,29 @@ var columnWidth = 101;
 var bottomWall = 445;
 var rightWall = 505;
 //
+// Enemy speed
+//
+var enemySpeed = 1;
+//
 // Random postion generator
 //
 var randPos = function(){
-    return Math.floor((Math.random() * 1000) + 100);
+    var rnd = Math.floor(Math.random() * 100);
+    console.log("Random: " + rnd);
+    return rnd + 100;
 }
+/*************************************************
+//
+//      LANE CLASS
+//
+***************************************************/
+var Lane = function(t,b){
+    this.topY = t;
+    this.bottomY = b;
+    this.track = (b+t)/2;
+    this.safetyZone = "unknown";
+};
+
 /**************************************************
 //
 //      ENEMY CLASS
@@ -52,9 +70,13 @@ Enemy.prototype.update = function(dt) {
     if(this.x >= rightWall){
         // Todo: Set up a random delay before starting again
         // Move back to start
-        this.x = -10;
+        this.x = 1 - randPos();
+        // console.log(this.x);
+        // Increase the speed
+        enemySpeed = (enemySpeed+1) * dt;
     } else {
         this.x = ++this.x;
+        // console.log(enemySpeed);
     }
 
     // console.log("Enemy x: " + this.x);
@@ -145,22 +167,35 @@ Player.prototype.handleInput = function(key){
 //
 ***************************************************/
 // Now instantiate your objects.
+//
+// Set up enemy lanes
+//
+var dangerLane = [];
+for(var i = 0; i < 4/*number of danger lanes*/;i++){
+    dangerLane[i] = new Lane((i*laneHeight),(i*laneHeight)+laneHeight);
+    dangerLane[i].safetyZone = "danger";
+    console.log(dangerLane[i].track);
+}
+//
 // Place all enemy objects in an array called allEnemies
-
+//
 var allEnemies = [];
 for(var i = 0; i < 3 /*number of enemies*/; i++){
     // Make a new enemy object
     allEnemies[i] = new Enemy();
     // Place the enemy in a lane
-    allEnemies[i].y = i*90 + 50;
+    allEnemies[i].y = dangerLane[i].track;//i*90 + 50;
     // Randomly place the enemy on the x axis
-    allEnemies[i].x = randPos();
+    allEnemies[i].x = randPos()*i;
     // Log the x/y axis values
-    // console.log("allEnemies length: " + allEnemies.length + ", x:" + allEnemies[i].x + ", y:" + allEnemies[i].y);
+    console.log("allEnemies length: " + allEnemies.length + ", x:" + allEnemies[i].x + ", y:" + allEnemies[i].y);
 }
+//
 // Place the player object in a variable called player
+//
 var player = new Player();
 //
+
 
 
 // This listens for key presses and sends the keys to your
