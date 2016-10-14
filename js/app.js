@@ -47,29 +47,63 @@ Player.prototype.handleInput = function(key){
     switch (key) {
         case 'left':
         console.log("left");
+        // If not all the way left
+        if(this.x > 0){
+            // decrement x
+            this.x--;
+        }
         break;
         case 'up':
-        console.log("up");
+
+        console.log("up, canvas width: " + width);
+        // If not all the way up
+        if(this.y > 0){
+            // decrement y
+            this.y--;
+        }
         break;
         case 'right':
+        var width = ctx.canvas.clientWidth;
         console.log("right");
+        // If not all the way right
+        if(this.x < rightWall){
+            // Increment x
+            this.x++;
+        }
         break;
         case 'down':
-        console.log("down");
+        var height = ctx.canvas.clientHeight;
+        var tmp = this.y;
+        console.log("down: " + tmp);
+        // If not at bottom
+        if(this.y < bottomWall){
+            // Increment y
+            this.y++;
+        }else{
+            // bounce back
+            this.y = (bottomWall - 100);
+            //Todo: call for a flip
+        }
         break;
         default:
-        console.log("nothing");        
+        console.log("nothing");
     }
+    // Re-draw
+    this.render();
 };
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 var allEnemies = new Array();
-for(var i = 0; i < 10 /*number of enemies*/; i++){
+for(var i = 0; i < 3 /*number of enemies*/; i++){
     allEnemies.push(new Enemy());
 }
 // Place the player object in a variable called player
 var player = new Player();
-
+//
+// Game area limits
+//
+var bottomWall = 445;
+var rightWall = 505;
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
