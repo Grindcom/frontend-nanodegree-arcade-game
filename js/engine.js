@@ -190,6 +190,5 @@ var Engine = (function(global) {
      */
     global.ctx = ctx;
     // Set global access for the lane and columns
-    // global.laneHeight = laneHeight;
-    // global.columnWidth = colWidth;
+
 })(this);
