@@ -7,12 +7,23 @@
 var laneHeight = 83;
 // Set the row height for the game
 var columnWidth = 101;
+
+/**********************************
+//
+// Local Globals
+//
+************************************/
 //
 // Visible Game area limits
 //
 var bottomWall = 445;
 var rightWall = 505;
-
+//
+// Random postion generator
+//
+var randPos = function(){
+    return Math.floor((Math.random() * 1000) + 100);
+}
 /**************************************************
 //
 //      ENEMY CLASS
@@ -135,6 +146,7 @@ Player.prototype.handleInput = function(key){
 ***************************************************/
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
+
 var allEnemies = [];
 for(var i = 0; i < 3 /*number of enemies*/; i++){
     // Make a new enemy object
@@ -142,12 +154,13 @@ for(var i = 0; i < 3 /*number of enemies*/; i++){
     // Place the enemy in a lane
     allEnemies[i].y = i*90 + 50;
     // Randomly place the enemy on the x axis
-    allEnemies[i].x = (Math.random() * 1000) + 100;
+    allEnemies[i].x = randPos();
     // Log the x/y axis values
-    console.log("allEnemies length: " + allEnemies.length + ", x:" + allEnemies[i].x + ", y:" + allEnemies[i].y);
+    // console.log("allEnemies length: " + allEnemies.length + ", x:" + allEnemies[i].x + ", y:" + allEnemies[i].y);
 }
 // Place the player object in a variable called player
 var player = new Player();
+//
 
 
 // This listens for key presses and sends the keys to your
