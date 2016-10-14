@@ -17,6 +17,15 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     // console.log("Enemy Update: " + dt);
+    // Check to see if enemy has hit the wall
+    if(this.x >= rightWall){
+        // Move back to start
+        this.x = 0.1;
+    } else {
+        this.x = ++this.x + (this.x*dt);
+    }
+
+    console.log("Enemy x: " + this.x);
 };
 
 // Draw the enemy on the screen, required method for game
@@ -97,6 +106,7 @@ var allEnemies = [];
 for(var i = 0; i < 3 /*number of enemies*/; i++){
     allEnemies[i] = new Enemy();
     allEnemies[i].y = i*90 + 50;
+    allEnemies[i].x = 1;
     console.log("allEnemies length: " + allEnemies.length + ", y:" + allEnemies[i].y);
 }
 // Place the player object in a variable called player
