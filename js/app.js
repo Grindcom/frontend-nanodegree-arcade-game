@@ -16,10 +16,12 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    // console.log("Enemy Update: " + dt);
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
+    // console.log("Enemy render...");
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
@@ -36,7 +38,7 @@ var Player = function(){
 };
 //
 Player.prototype.update = function(dt){
-
+    // console.log("Player update: " + dt);
 };
 //
 Player.prototype.render = function(){
@@ -46,7 +48,7 @@ Player.prototype.render = function(){
 Player.prototype.handleInput = function(key){
     switch (key) {
         case 'left':
-        console.log("left");
+        // console.log("left");
         // If not all the way left
         if(this.x > 0){
             // decrement x
@@ -54,8 +56,6 @@ Player.prototype.handleInput = function(key){
         }
         break;
         case 'up':
-
-        console.log("up, canvas width: " + width);
         // If not all the way up
         if(this.y > 0){
             // decrement y
@@ -63,18 +63,17 @@ Player.prototype.handleInput = function(key){
         }
         break;
         case 'right':
-        var width = ctx.canvas.clientWidth;
-        console.log("right");
+        // var tmp = this.x;
+        // console.log("Right, canvas width: " + tmp);
         // If not all the way right
-        if(this.x < rightWall){
+        if(this.x < (rightWall - 186)){
             // Increment x
             this.x++;
         }
         break;
         case 'down':
-        var height = ctx.canvas.clientHeight;
-        var tmp = this.y;
-        console.log("down: " + tmp);
+        // var tmp = this.y;
+        // console.log("down: " + tmp);
         // If not at bottom
         if(this.y < bottomWall){
             // Increment y
@@ -85,22 +84,25 @@ Player.prototype.handleInput = function(key){
             //Todo: call for a flip
         }
         break;
+        case 'jump':
+        this.x += 100;
+        break;
         default:
-        console.log("nothing");
+        console.log("nothing: " + key);
     }
-    // Re-draw
-    this.render();
 };
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
-var allEnemies = new Array();
+var allEnemies = [];
 for(var i = 0; i < 3 /*number of enemies*/; i++){
-    allEnemies.push(new Enemy());
+    allEnemies[i] = new Enemy();
+    allEnemies[i].y = i*90 + 50;
+    console.log("allEnemies length: " + allEnemies.length + ", y:" + allEnemies[i].y);
 }
 // Place the player object in a variable called player
 var player = new Player();
 //
-// Game area limits
+// Visible Game area limits
 //
 var bottomWall = 445;
 var rightWall = 505;
@@ -112,8 +114,11 @@ document.addEventListener('keyup', function(e) {
         37: 'left',
         38: 'up',
         39: 'right',
-        40: 'down'
+        40: 'down',
+        74: 'jump'
     };
-
+    // Use this to find any key code
+    // console.log("Key Listener: " + e.keyCode);
+    // Call for an action
     player.handleInput(allowedKeys[e.keyCode]);
 });
