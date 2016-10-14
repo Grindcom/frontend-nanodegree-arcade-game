@@ -1,5 +1,9 @@
 # Arcage Game
 
+Global variables for lane height and column width allow changes to the view of the game.  These are currently added to app.js  
+### Add/change the following variables  
+  * `var laneHeight` (default is 83)
+  * `var columnWidth` (default is 101)
 
 ## This is now a Fork of Udacity's arcade game
 frontend-nanodegree-arcade-game

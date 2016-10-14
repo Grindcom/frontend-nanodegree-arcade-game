@@ -1,10 +1,23 @@
+/**********************************
+//
 // Globals from engine.js
+//
+************************************/
+// Set the lane height for the game
 var laneHeight = 83;
+// Set the row height for the game
 var columnWidth = 101;
+//
+// Visible Game area limits
+//
+var bottomWall = 445;
+var rightWall = 505;
 
-console.log(laneHeight);
-console.log(columnWidth);
-
+/**************************************************
+//
+//      ENEMY CLASS
+//
+***************************************************/
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
@@ -42,6 +55,11 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+/**************************************************
+//
+//      PLAYER CLASS
+//
+***************************************************/
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
@@ -109,6 +127,12 @@ Player.prototype.handleInput = function(key){
         console.log("nothing");
     }
 };
+
+/**************************************************
+//
+//      APP OPERATIONS
+//
+***************************************************/
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 var allEnemies = [];
@@ -124,11 +148,7 @@ for(var i = 0; i < 3 /*number of enemies*/; i++){
 }
 // Place the player object in a variable called player
 var player = new Player();
-//
-// Visible Game area limits
-//
-var bottomWall = 445;
-var rightWall = 505;
+
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
