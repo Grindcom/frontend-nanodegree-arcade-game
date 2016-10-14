@@ -119,6 +119,15 @@ var Engine = (function(global) {
             numCols = 5,
             row, col;
 
+            var rowHeight = 83;
+            if(global.laneHeight != null){
+                rowHeight = global.laneHeight;
+            }
+            var colWidth = 101;
+            if(global.columnWidth != null){
+                colWidth = global.columnWidth;
+            }
+
         /* Loop through the number of rows and columns we've defined above
          * and, using the rowImages array, draw the correct image for that
          * portion of the "grid"
@@ -132,7 +141,7 @@ var Engine = (function(global) {
                  * so that we get the benefits of caching these images, since
                  * we're using them over and over.
                  */
-                ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+                ctx.drawImage(Resources.get(rowImages[row]), col * colWidth, row * rowHeight);
             }
         }
 
@@ -180,4 +189,7 @@ var Engine = (function(global) {
      * from within their app.js files.
      */
     global.ctx = ctx;
+    // Set global access for the lane and columns
+    // global.laneHeight = laneHeight;
+    // global.columnWidth = colWidth;
 })(this);

@@ -1,3 +1,10 @@
+// Globals from engine.js
+var laneHeight = 83;
+var columnWidth = 101;
+
+console.log(laneHeight);
+console.log(columnWidth);
+
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
@@ -19,6 +26,7 @@ Enemy.prototype.update = function(dt) {
     // console.log("Enemy Update: " + dt);
     // Check to see if enemy has hit the wall
     if(this.x >= rightWall){
+        // Todo: Set up a random delay before starting again
         // Move back to start
         this.x = -10;
     } else {
@@ -98,7 +106,7 @@ Player.prototype.handleInput = function(key){
         this.y -= 100;
         break;
         default:
-        console.log("nothing: " + key);
+        console.log("nothing");
     }
 };
 // Now instantiate your objects.
