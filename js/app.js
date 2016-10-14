@@ -115,21 +115,21 @@ Player.prototype.render = function(){
 };
 //
 Player.prototype.handleInput = function(key){
+    var advanceFactor = 10;
     switch (key) {
         case 'left':
         // console.log("left");
         // If not all the way left
         if(this.x > 0){
             // decrement x
-            this.x--;
+            this.x -= advanceFactor;
         }
         break;
         case 'up':
-        console.log("Up: " + this.y);
         // If not all the way up
         if(this.y > 0){
             // decrement y
-            this.y--;
+            this.y -= advanceFactor;
         }
         break;
         case 'right':
@@ -138,7 +138,7 @@ Player.prototype.handleInput = function(key){
         // If not all the way right
         if(this.x < (rightWall - 186)){
             // Increment x
-            this.x++;
+            this.x += advanceFactor;
         }
         break;
         case 'down':
@@ -147,7 +147,7 @@ Player.prototype.handleInput = function(key){
         // If not at bottom
         if(this.y < bottomWall){
             // Increment y
-            this.y++;
+            this.y += advanceFactor;
         }else{
             // bounce back
             this.y = (bottomWall - 100);
@@ -189,7 +189,7 @@ for(var i = 0; i < 3 /*number of enemies*/; i++){
     // Randomly place the enemy on the x axis
     allEnemies[i].x = randPos()*i;
     // Log the x/y axis values
-    // console.log("allEnemies length: " + allEnemies.length + ", x:" + allEnemies[i].x + ", y:" + allEnemies[i].y);
+    console.log("allEnemies length: " + allEnemies.length + ", x:" + allEnemies[i].x + ", y:" + allEnemies[i].y);
 }
 //
 // Place the player object in a variable called player
