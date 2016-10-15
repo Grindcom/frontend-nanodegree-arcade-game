@@ -122,7 +122,6 @@ var Engine = (function(global) {
         // If there is a totalLanes global, set it
         if(global.totalLanes != null){
             global.totalLanes = numRows;
-            console.log("setting totalLanes in engine");
         }
         // If there is a totalColumns global, set it
         if(global.totalColumns != null){

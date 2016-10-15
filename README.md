@@ -1,5 +1,5 @@
 # Arcage Game
-
+Enemies start at random x locations as well as in random danger lanes (the cobble blocks). When the enemy finishes their track, they start again in a different, randomly selected track.
 Global variables for lane height and column width allow changes to the view of the game.  These are currently added to app.js  
 ### Add/change the following variables  
   * `var laneHeight` (default is 83)
