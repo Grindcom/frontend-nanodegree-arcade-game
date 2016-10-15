@@ -118,7 +118,7 @@ var Engine = (function(global) {
         numRows = 6,
         numCols = 5,
         row, col;
-        
+
         // If there is a totalLanes global, set it
         if(global.totalLanes != null){
             global.totalLanes = numRows;
@@ -128,21 +128,27 @@ var Engine = (function(global) {
         if(global.totalColumns != null){
             global.totalColumns = numCols;
         }
-        // Set the row height
+        // Set the row height, only once because of the
+        //  combination of a var with an immediate
+        //  function call, where the language only sets a
+        //  var once in scope.
         var rowHeight = (function(){
             // If there is a laneHeight global, use that value.
             if(global.laneHeight != null){
                 return global.laneHeight;
-                console.log("App, rowHeight:" + rowHeight);
             }
-            console.log("default, rowHeight:" + rowHeight);
             return 83;
         })(this);
-
-        var colWidth = 101;
-        if(global.columnWidth != null){
-            colWidth = global.columnWidth;
-        }
+        // Set the column width, only once because of the
+        //  combination of a var with an immediate
+        //  function call, where the language only sets a
+        //  var once in scope.
+        var colWidth = (function(){
+            if(global.columnWidth != null){
+                return global.columnWidth;
+            }
+            return 101;
+        })(this);
 
         /* Loop through the number of rows and columns we've defined above
         * and, using the rowImages array, draw the correct image for that
