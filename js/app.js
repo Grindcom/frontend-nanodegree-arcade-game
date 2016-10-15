@@ -8,6 +8,9 @@ var laneHeight = 83;
 // Set the row height for the game
 var columnWidth = 101;
 
+var totalLanes = 1;
+var totalColumns = 0;
+
 /**********************************
 //
 // Local Globals
@@ -79,10 +82,8 @@ Enemy.prototype.update = function(dt) {
         // Increase the speed
         enemySpeed = (enemySpeed+1) * dt;
         // Change lane at random
-        var tmp = (dangerLane.length)-1;
-        console.log("tmp: " + tmp);
-        var newLane = getRandomIntInclusive(0,tmp);
-        console.log(newLane);
+        var maxLanes = (dangerLane.length)-1;
+        var newLane = getRandomIntInclusive(0,maxLanes);
         this.setLane(newLane);
     } else {
         this.x = ++this.x;
@@ -122,6 +123,8 @@ var Player = function(){
     this.x = 200;
     // Initial y location for player
     this.y = 400;
+    // Lane the player is in
+    this.currentLane = null;
 };
 //
 Player.prototype.update = function(dt){
@@ -175,7 +178,7 @@ Player.prototype.handleInput = function(key){
         this.y -= 100;
         break;
         default:
-        console.log("nothing");
+        console.log("Not valid input");
     }
 };
 
@@ -192,7 +195,6 @@ var dangerLane = [];
 for(var i = 0; i < 3/*number of danger lanes*/;i++){
     dangerLane[i] = new Lane((i*laneHeight),(i*laneHeight)+laneHeight);
     dangerLane[i].safetyZone = "danger";
-    console.log(dangerLane[i].track);
 }
 //
 // Place all enemy objects in an array called allEnemies
@@ -201,7 +203,6 @@ var allEnemies = [];
 for(var i = 0; i < enemyTotal /*number of enemies*/; i++){
     // Select one of the danger lanes at random
     var selectedLane = getRandomIntInclusive(0,2);
-    console.log(selectedLane);
     // Make a new enemy object
     allEnemies[i] = new Enemy();
     // Place the enemy in a lane
