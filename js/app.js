@@ -1,3 +1,11 @@
+// TODO: Add score in top right
+// TODO: Add enemy drop down column at random points feature
+// TODO: Add shake block feature
+// TODO: Add gems for bonus score(?)
+// TODO: Review projet rubric and compare with progress
+
+
+
 /**********************************
 //
 // Globals from engine.js
@@ -75,7 +83,7 @@ Enemy.prototype.update = function(dt) {
     // console.log("Enemy Update: " + dt);
     // Check to see if enemy has hit the wall
     if(this.x >= rightWall){
-        // Todo: Set up a random delay before starting again
+        // TODO:  Set up a random delay before starting again
         // Move back to start
         this.x = 1 - randPos();
         // console.log(this.x);
@@ -171,7 +179,7 @@ Player.prototype.handleInput = function(key){
         }else{
             // bounce back
             this.y = (bottomWall - 100);
-            //Todo: call for a flip
+            // TODO:  call for a flip of icon
         }
         break;
         case 'jump':
