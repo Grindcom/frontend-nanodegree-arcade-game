@@ -1,8 +1,9 @@
 // TODO: Add score in top right
 // TODO: Add enemy drop down column at random points feature
 // TODO: Add shake block feature
-// TODO: Add gems for bonus score(?)
+// TODO: Add gems for bonus score(?); enemy drops and picks up
 // TODO: Review projet rubric and compare with progress
+// TODO: Add collision test
 
 
 
@@ -15,8 +16,9 @@
 var laneHeight = 83;
 // Set the row height for the game
 var columnWidth = 101;
-
+// Total lanes including danger and safe, set by engine.js
 var totalLanes = 1;
+// Total columns, set by engin.js
 var totalColumns = 0;
 
 /**********************************
