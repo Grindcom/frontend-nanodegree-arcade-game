@@ -210,6 +210,7 @@ var Engine = (function(global) {
     * from within their app.js files.
     */
     global.ctx = ctx;
+    global.canvas = canvas;
     // Set global access for the lane and columns
 
 })(this);

@@ -127,6 +127,7 @@ Enemy.prototype.setLane = function(lane){
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function(){
+
     // Initilize icon for player
     this.sprite = 'images/char-boy.png';
     // Initial x location for player
@@ -138,11 +139,17 @@ var Player = function(){
 };
 //
 Player.prototype.update = function(dt){
-    // console.log("Player update: " + dt);
+    if(ctx){
+        initText(ctx);
+    }
+
 };
 //
 Player.prototype.render = function(){
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    //
+    ctx.strokeText("99999",canvas.width - 50, 35);
+    ctx.fillText("99999",canvas.width - 50, 35)
 };
 //
 Player.prototype.handleInput = function(key){
@@ -248,6 +255,30 @@ document.addEventListener('keyup', function(e) {
 
 /***************************************************************
 //
+//       SCOREBOARD FUNCTIONS
+//
+***************************************************************/
+function redrawScore(score){
+
+}
+//
+// Function to set up Meme text style
+//
+function initText (context){
+    console.log("init text");
+    // Set font size and type
+    context.font = "36px Impact"
+    context.textAlign = 'center';
+    // Set outline color
+    context.strokeStyle = "black";// this is the default color
+    // Set fill color
+    context.fillStyle = "white";// this is the default color
+    // Set the stroke width
+    context.lineWidth = 3;
+}
+
+/***************************************************************
+//
 //       BORROWED FUNCTIONS
 //
 ***************************************************************/
@@ -255,7 +286,7 @@ document.addEventListener('keyup', function(e) {
 // Returns a random integer between min (included) and max (included)
 // Using Math.round() will give you a non-uniform distribution!
 function getRandomIntInclusive(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
