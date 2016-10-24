@@ -40,6 +40,10 @@ var enemyTotal = 3;
 //
 var enemySpeed = 1;
 //
+// Score of game
+//
+var gameScore = 0;
+//
 // Random postion generator
 //
 function randPos(){
@@ -139,15 +143,15 @@ var Player = function(){
 };
 //
 Player.prototype.update = function(dt){
-    
+
 };
 //
 Player.prototype.render = function(){
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     //
-    ctx.strokeText("99999",canvas.width - 50, 35);
-    ctx.fillText("99999",canvas.width - 50, 35)
+    setScore(gameScore);
 };
+
 //
 Player.prototype.handleInput = function(key){
     var advanceFactor = 10;
@@ -255,6 +259,11 @@ document.addEventListener('keyup', function(e) {
 //       SCOREBOARD FUNCTIONS
 //
 ***************************************************************/
+function setScore(newScore){
+    console.log(newScore);
+    ctx.strokeText(newScore,canvas.width - 50, 35);
+    ctx.fillText(newScore,canvas.width - 50, 35);
+};
 function redrawScore(score){
 
 }
@@ -281,7 +290,10 @@ function initText (context){
 ***************************************************************/
 window.onload = function(){
   console.log("On Load");
+  // Initialize the score text
   initText(ctx);
+  // Initialize the game score
+  gameScore = 3;
 };
 /***************************************************************
 //
