@@ -21,7 +21,7 @@ var totalLanes = 1;
 // Total columns, set by engin.js
 var totalColumns = 0;
 //
-var enemyLaneMin = 1;
+var enemyLaneMin = 0;
 var enemyLaneMax = 3;
 
 /**********************************
@@ -101,6 +101,7 @@ Enemy.prototype.update = function(dt) {
         // Change lane at random
         var maxLanes = (gameLanes.length)-1;
         var newLane = getRandomIntInclusive(enemyLaneMin, enemyLaneMax);
+        console.log("new Lane " + newLane);
         this.setLane(newLane);
     } else {
         this.x = ++this.x;
@@ -118,7 +119,7 @@ Enemy.prototype.render = function() {
 // Change lanes
 Enemy.prototype.setLane = function(lane){
     // is lane in range
-    if(lane < gameLanes.length){
+    if(lane < enemyLaneMax && lane >= enemyLaneMin){
         // set new currentLane
         this.currentLane = lane;
     }
@@ -217,7 +218,7 @@ function initLanes(){
     //
     for(var i = 0; i < totalLanes/*number of danger lanes*/;i++){
         gameLanes[i] = new Lane((i*laneHeight),(i*laneHeight)+laneHeight);
-
+console.log("Lane " + i + " " + gameLanes[i].safetyZone);
     }
     //
     gameLanes[1].safetyZone = "score";
@@ -235,18 +236,19 @@ function initLanes(){
 //
 var allEnemies = [];
 function initEnemies(){
-for(var i = 0; i < enemyTotal /*number of enemies*/; i++){
-    // Select one of the danger lanes at random
-    var selectedLane = getRandomIntInclusive(1,3);
-    // Make a new enemy object
-    allEnemies[i] = new Enemy();
-    // Place the enemy in a lane
-    allEnemies[i].y = gameLanes[selectedLane].track;//i*90 + 50;
-    // Randomly place the enemy on the x axis
-    allEnemies[i].x = randPos()*i;
-    // Store the lane this enemy will be in
-    allEnemies[i].currentLane = selectedLane;
-}
+    for(var i = 0; i < enemyTotal /*number of enemies*/; i++){
+        // Select one of the danger lanes at random
+        var selectedLane = getRandomIntInclusive(1,3);
+        // Make a new enemy object
+        allEnemies[i] = new Enemy();
+        // Place the enemy in a lane
+        allEnemies[i].y = gameLanes[selectedLane].track;//i*90 + 50;
+        console.log("Enemy lane " + selectedLane);
+        // Randomly place the enemy on the x axis
+        allEnemies[i].x = randPos()*i;
+        // Store the lane this enemy will be in
+        allEnemies[i].currentLane = selectedLane;
+    }
 };
 //
 // Place the player object in a variable called player
@@ -307,15 +309,15 @@ function initText (context){
 //
 ***************************************************************/
 window.onload = function(){
-  console.log("On Load");
-  // Initialize the score text
-  initText(ctx);
-  // Initialize the game score
-  gameScore = 3;
-  // Initialize lanes
-  initLanes();
-  //
-  initEnemies();
+    console.log("On Load");
+    // Initialize the score text
+    initText(ctx);
+    // Initialize the game score
+    gameScore = 3;
+    // Initialize lanes
+    initLanes();
+    //
+    initEnemies();
 };
 /***************************************************************
 //
