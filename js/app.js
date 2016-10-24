@@ -215,10 +215,12 @@ Player.prototype.handleInput = function(key){
 // Set up enemy lanes
 //
 var dangerLane = [];
-for(var i = 0; i < 3/*number of danger lanes*/;i++){
-    dangerLane[i] = new Lane((i*laneHeight),(i*laneHeight)+laneHeight);
-    dangerLane[i].safetyZone = "danger";
-}
+function initLanes(){
+    for(var i = 0; i < 3/*number of danger lanes*/;i++){
+        dangerLane[i] = new Lane((i*laneHeight),(i*laneHeight)+laneHeight);
+        dangerLane[i].safetyZone = "danger";
+    }
+};
 //
 // Place all enemy objects in an array called allEnemies
 //
@@ -301,6 +303,8 @@ window.onload = function(){
     initText(ctx);
     // Initialize the game score
     gameScore = 3;
+    // Initialize lanes
+    initLanes();
     // Initizlize the enemies array
     initEnemies();
 };
