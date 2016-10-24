@@ -44,6 +44,11 @@ var enemySpeed = 1;
 //
 var gameScore = 0;
 //
+// Enemy lanes
+//
+var enemyLaneMin = 1;
+var enemyLaneMax = 3;
+//
 // Random postion generator
 //
 function randPos(){
