@@ -218,18 +218,20 @@ for(var i = 0; i < 3/*number of danger lanes*/;i++){
 // Place all enemy objects in an array called allEnemies
 //
 var allEnemies = [];
-for(var i = 0; i < enemyTotal /*number of enemies*/; i++){
-    // Select one of the danger lanes at random
-    var selectedLane = getRandomIntInclusive(0,2);
-    // Make a new enemy object
-    allEnemies[i] = new Enemy();
-    // Place the enemy in a lane
-    allEnemies[i].y = dangerLane[selectedLane].track;//i*90 + 50;
-    // Randomly place the enemy on the x axis
-    allEnemies[i].x = randPos()*i;
-    // Store the lane this enemy will be in
-    allEnemies[i].currentLane = selectedLane;
-}
+function initEnemies(){
+    for(var i = 0; i < enemyTotal /*number of enemies*/; i++){
+        // Select one of the danger lanes at random
+        var selectedLane = getRandomIntInclusive(0,2);
+        // Make a new enemy object
+        allEnemies[i] = new Enemy();
+        // Place the enemy in a lane
+        allEnemies[i].y = dangerLane[selectedLane].track;//i*90 + 50;
+        // Randomly place the enemy on the x axis
+        allEnemies[i].x = randPos()*i;
+        // Store the lane this enemy will be in
+        allEnemies[i].currentLane = selectedLane;
+    }
+};
 //
 // Place the player object in a variable called player
 //
@@ -289,11 +291,13 @@ function initText (context){
 //
 ***************************************************************/
 window.onload = function(){
-  console.log("On Load");
-  // Initialize the score text
-  initText(ctx);
-  // Initialize the game score
-  gameScore = 3;
+    console.log("On Load");
+    // Initialize the score text
+    initText(ctx);
+    // Initialize the game score
+    gameScore = 3;
+    // Initizlize the enemies array
+    initEnemies();
 };
 /***************************************************************
 //
