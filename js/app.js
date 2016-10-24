@@ -211,14 +211,26 @@ Player.prototype.handleInput = function(key){
 //
 ***************************************************/
 // Now instantiate your objects.
-//
-// Set up enemy lanes
-//
+
 var gameLanes = [];
 function initLanes(){
-    for(var i = 0; i < 3/*number of danger lanes*/;i++){
+    var i = 0;
+    // initialize score lane
+    gameLanes[i] = new Lane((i*laneHeight),(i*laneHeight)+laneHeight);
+    gameLanes[i].safetyZone = "score";
+    //
+    // Set up enemy lanes
+    //
+    for(i = 1; i < 3/*number of danger lanes*/;i++){
         gameLanes[i] = new Lane((i*laneHeight),(i*laneHeight)+laneHeight);
         gameLanes[i].safetyZone = "danger";
+    }
+    //
+    // Set up the safe lanes
+    //
+    for(; i < totalLanes; i++){
+        gameLanes[i] = new Lane((i*laneHeight),(i*laneHeight)+laneHeight);
+        gameLanes[i].safetyZone = "safe";
     }
 };
 //
