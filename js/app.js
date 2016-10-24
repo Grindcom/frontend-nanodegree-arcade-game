@@ -139,10 +139,7 @@ var Player = function(){
 };
 //
 Player.prototype.update = function(dt){
-    if(ctx){
-        initText(ctx);
-    }
-
+    
 };
 //
 Player.prototype.render = function(){
@@ -277,6 +274,15 @@ function initText (context){
     context.lineWidth = 3;
 }
 
+/***************************************************************
+//
+//       STARTUP AND INIT FUNCTIONS
+//
+***************************************************************/
+window.onload = function(){
+  console.log("On Load");
+  initText(ctx);
+};
 /***************************************************************
 //
 //       BORROWED FUNCTIONS
