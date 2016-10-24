@@ -101,7 +101,7 @@ Enemy.prototype.update = function(dt) {
         // Increase the speed
         enemySpeed = (enemySpeed+1) * dt;
         // Change lane at random
-        var maxLanes = (dangerLane.length)-1;
+        var maxLanes = (gameLanes.length)-1;
         var newLane = getRandomIntInclusive(0,maxLanes);
         this.setLane(newLane);
     } else {
@@ -120,12 +120,12 @@ Enemy.prototype.render = function() {
 // Change lanes
 Enemy.prototype.setLane = function(lane){
     // is lane in range
-    if(lane < dangerLane.length){
+    if(lane < gameLanes.length){
         // set new currentLane
         this.currentLane = lane;
     }
     // set new y value
-    this.y = dangerLane[lane].track;
+    this.y = gameLanes[lane].track;
 };
 /**************************************************
 //
@@ -214,11 +214,11 @@ Player.prototype.handleInput = function(key){
 //
 // Set up enemy lanes
 //
-var dangerLane = [];
+var gameLanes = [];
 function initLanes(){
     for(var i = 0; i < 3/*number of danger lanes*/;i++){
-        dangerLane[i] = new Lane((i*laneHeight),(i*laneHeight)+laneHeight);
-        dangerLane[i].safetyZone = "danger";
+        gameLanes[i] = new Lane((i*laneHeight),(i*laneHeight)+laneHeight);
+        gameLanes[i].safetyZone = "danger";
     }
 };
 //
@@ -232,7 +232,7 @@ function initEnemies(){
         // Make a new enemy object
         allEnemies[i] = new Enemy();
         // Place the enemy in a lane
-        allEnemies[i].y = dangerLane[selectedLane].track;//i*90 + 50;
+        allEnemies[i].y = gameLanes[selectedLane].track;//i*90 + 50;
         // Randomly place the enemy on the x axis
         allEnemies[i].x = randPos()*i;
         // Store the lane this enemy will be in
