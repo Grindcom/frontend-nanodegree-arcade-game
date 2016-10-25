@@ -32,8 +32,8 @@ var enemyLaneMax = 3;
 //
 // Visible Game area limits
 //
-var bottomWall = 445;
-var rightWall = 505;
+var bottomWall = 500;
+var rightWall = 600;
 //
 // Number of enemies on current level
 //
@@ -145,7 +145,7 @@ var Player = function(){
     // Initial x location for player
     this.x = 200;
     // Initial y location for player
-    this.y = 400;
+    this.y = 450;
     // Lane the player is in
     this.currentLane = null;
 };
@@ -174,7 +174,7 @@ Player.prototype.handleInput = function(key){
         break;
         case 'up':
         // If not all the way up
-        if(this.y > -10){
+        if(this.y > 50){
             // decrement y
             this.y -= advanceFactor;
 
