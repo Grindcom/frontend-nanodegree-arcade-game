@@ -34,7 +34,7 @@ var rightWall = 505;
 //
 // Number of enemies on current level
 //
-var enemyTotal = 3;
+var enemyTotal = 4;
 //
 // Enemy speed
 //
@@ -63,7 +63,7 @@ function randPos(){
 var Lane = function(t,b){
     this.topY = t;
     this.bottomY = b;
-    this.track = ((b+t)/2)+15;
+    this.track = ((b+t)/2) + 12;// set to middle of lane
     this.safetyZone = "unknown";
 };
 
@@ -79,7 +79,7 @@ var Enemy = function() {
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
+    this.sprite = 'images/enemy-bug-2.png';
     this.x = 0;
     this.y = 0;
     this.currentLane = null;
@@ -102,14 +102,13 @@ Enemy.prototype.update = function(dt) {
         enemySpeed = (enemySpeed+1) * dt;
         // Change lane at random
         var maxLanes = (gameLanes.length)-1;
-        var newLane = getRandomIntInclusive(0,maxLanes);
+        var newLane =getRandomIntInclusive(enemyLaneMin,enemyLaneMax);
         this.setLane(newLane);
     } else {
         this.x = ++this.x;
         // console.log(enemySpeed);
     }
 
-    // console.log("Enemy x: " + this.x);
 };
 
 // Draw the enemy on the screen, required method for game
@@ -119,8 +118,8 @@ Enemy.prototype.render = function() {
 };
 // Change lanes
 Enemy.prototype.setLane = function(lane){
-    // is lane in range
-    if(lane < gameLanes.length){
+    // if lane is in range
+    if(lane <= enemyLaneMax && lane >= enemyLaneMin){
         // set new currentLane
         this.currentLane = lane;
     }
@@ -240,7 +239,7 @@ var allEnemies = [];
 function initEnemies(){
     for(var i = 0; i < enemyTotal /*number of enemies*/; i++){
         // Select one of the danger lanes at random
-        var selectedLane = getRandomIntInclusive(0,2);
+        var selectedLane = getRandomIntInclusive(enemyLaneMin,enemyLaneMax);
         // Make a new enemy object
         allEnemies[i] = new Enemy();
         // Place the enemy in a lane
