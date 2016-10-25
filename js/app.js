@@ -37,7 +37,7 @@ var rightWall = 505;
 //
 // Number of enemies on current level
 //
-var enemyTotal = 3;
+var enemyTotal = 4;
 //
 // Enemy speed
 //
@@ -46,6 +46,11 @@ var enemySpeed = 1;
 // Score of game
 //
 var gameScore = 0;
+//
+// Enemy lanes
+//
+var enemyLaneMin = 1;
+var enemyLaneMax = 3;
 //
 // Random postion generator
 //
@@ -61,7 +66,7 @@ function randPos(){
 var Lane = function(t,b){
     this.topY = t;
     this.bottomY = b;
-    this.track = ((b+t)/2)+15;
+    this.track = ((b+t)/2) + 12;// set to middle of lane
     this.safetyZone = "unknown";
 };
 
@@ -77,7 +82,7 @@ var Enemy = function() {
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
+    this.sprite = 'images/enemy-bug-2.png';
     this.x = 0;
     this.y = 0;
     this.currentLane = null;
@@ -100,15 +105,13 @@ Enemy.prototype.update = function(dt) {
         enemySpeed = (enemySpeed+1) * dt;
         // Change lane at random
         var maxLanes = (gameLanes.length)-1;
-        var newLane = getRandomIntInclusive(enemyLaneMin, enemyLaneMax);
-        console.log("new Lane " + newLane);
+        var newLane =getRandomIntInclusive(enemyLaneMin,enemyLaneMax);
         this.setLane(newLane);
     } else {
         this.x = ++this.x;
         // console.log(enemySpeed);
     }
 
-    // console.log("Enemy x: " + this.x);
 };
 
 // Draw the enemy on the screen, required method for game
@@ -118,8 +121,8 @@ Enemy.prototype.render = function() {
 };
 // Change lanes
 Enemy.prototype.setLane = function(lane){
-    // is lane in range
-    if(lane < enemyLaneMax && lane >= enemyLaneMin){
+    // if lane is in range
+    if(lane <= enemyLaneMax && lane >= enemyLaneMin){
         // set new currentLane
         this.currentLane = lane;
     }
@@ -210,27 +213,27 @@ Player.prototype.handleInput = function(key){
 //
 ***************************************************/
 // Now instantiate your objects.
-
 var gameLanes = [];
 function initLanes(){
+    var i = 0;
+    // initialize score lane
+    gameLanes[i] = new Lane((i*laneHeight),(i*laneHeight)+laneHeight);
+    gameLanes[i].safetyZone = "score";
     //
-    // Set up enemy lanes (Danger Lanes)
+    // Set up enemy lanes
     //
-    for(var i = 0; i < totalLanes/*number of danger lanes*/;i++){
+    for(i = 1; i < 3/*number of danger lanes*/;i++){
         gameLanes[i] = new Lane((i*laneHeight),(i*laneHeight)+laneHeight);
-console.log("Lane " + i + " " + gameLanes[i].safetyZone);
+        gameLanes[i].safetyZone = "danger";
     }
     //
-    gameLanes[1].safetyZone = "score";
+    // Set up the safe lanes
     //
-    gameLanes[1].safetyZone = "danger";
-    gameLanes[2].safetyZone = "danger";
-    gameLanes[3].safetyZone = "danger";
-    //
-    gameLanes[1].safetyZone = "safe";
-    gameLanes[1].safetyZone = "safe";
+    for(; i < totalLanes; i++){
+        gameLanes[i] = new Lane((i*laneHeight),(i*laneHeight)+laneHeight);
+        gameLanes[i].safetyZone = "safe";
+    }
 };
-
 //
 // Place all enemy objects in an array called allEnemies
 //
@@ -238,12 +241,11 @@ var allEnemies = [];
 function initEnemies(){
     for(var i = 0; i < enemyTotal /*number of enemies*/; i++){
         // Select one of the danger lanes at random
-        var selectedLane = getRandomIntInclusive(1,3);
+        var selectedLane = getRandomIntInclusive(enemyLaneMin,enemyLaneMax);
         // Make a new enemy object
         allEnemies[i] = new Enemy();
         // Place the enemy in a lane
         allEnemies[i].y = gameLanes[selectedLane].track;//i*90 + 50;
-        console.log("Enemy lane " + selectedLane);
         // Randomly place the enemy on the x axis
         allEnemies[i].x = randPos()*i;
         // Store the lane this enemy will be in
@@ -279,9 +281,13 @@ document.addEventListener('keyup', function(e) {
 //       SCOREBOARD FUNCTIONS
 //
 ***************************************************************/
+//
+// Set the score
+//
 function setScore(newScore){
-    console.log(newScore);
+    // Set the outside text and location
     ctx.strokeText(newScore,canvas.width - 50, 35);
+    // set the fill text and location
     ctx.fillText(newScore,canvas.width - 50, 35);
 };
 function redrawScore(score){
@@ -291,7 +297,6 @@ function redrawScore(score){
 // Function to set up Meme text style
 //
 function initText (context){
-    console.log("init text");
     // Set font size and type
     context.font = "36px Impact"
     context.textAlign = 'center';
@@ -308,15 +313,18 @@ function initText (context){
 //       STARTUP AND INIT FUNCTIONS
 //
 ***************************************************************/
+//
+// When this page is loaded initialize the required variables
+//  and arrays
+//
 window.onload = function(){
-    console.log("On Load");
     // Initialize the score text
     initText(ctx);
     // Initialize the game score
     gameScore = 3;
     // Initialize lanes
     initLanes();
-    //
+    // Initizlize the enemies array
     initEnemies();
 };
 /***************************************************************
