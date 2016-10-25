@@ -279,9 +279,13 @@ document.addEventListener('keyup', function(e) {
 //       SCOREBOARD FUNCTIONS
 //
 ***************************************************************/
+//
+// Set the score
+//
 function setScore(newScore){
-    console.log(newScore);
+    // Set the outside text and location
     ctx.strokeText(newScore,canvas.width - 50, 35);
+    // set the fill text and location
     ctx.fillText(newScore,canvas.width - 50, 35);
 };
 function redrawScore(score){
@@ -291,7 +295,6 @@ function redrawScore(score){
 // Function to set up Meme text style
 //
 function initText (context){
-    console.log("init text");
     // Set font size and type
     context.font = "36px Impact"
     context.textAlign = 'center';
@@ -308,8 +311,11 @@ function initText (context){
 //       STARTUP AND INIT FUNCTIONS
 //
 ***************************************************************/
+//
+// When this page is loaded initialize the required variables
+//  and arrays
+//
 window.onload = function(){
-    console.log("On Load");
     // Initialize the score text
     initText(ctx);
     // Initialize the game score
