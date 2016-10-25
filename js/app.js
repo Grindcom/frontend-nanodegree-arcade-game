@@ -64,6 +64,7 @@ function randPos(){
 //
 ***************************************************/
 var Lane = function(t,b){
+    this.id = 0;
     this.topY = t;
     this.bottomY = b;
     this.track = ((b+t)/2) + 12;// set to middle of lane
@@ -140,7 +141,7 @@ Enemy.prototype.setLane = function(lane){
 var Player = function(){
 
     // Initilize icon for player
-    this.sprite = 'images/char-boy.png';
+    this.sprite = 'images/char-boy-2.png';
     // Initial x location for player
     this.x = 200;
     // Initial y location for player
@@ -162,6 +163,7 @@ Player.prototype.render = function(){
 //
 Player.prototype.handleInput = function(key){
     var advanceFactor = 10;
+
     switch (key) {
         case 'left':
         // If not all the way left
@@ -175,6 +177,7 @@ Player.prototype.handleInput = function(key){
         if(this.y > -10){
             // decrement y
             this.y -= advanceFactor;
+
         }
         break;
         case 'right':
@@ -205,6 +208,20 @@ Player.prototype.handleInput = function(key){
         default:
         console.log("Not valid input");
     }
+    // Check current lane
+
+    // Set new lane
+    this.setLane(this.y);
+};
+//
+Player.prototype.setLane = function(yPt){
+    // Go through lane array to compare Y location
+    gameLanes.forEach(function(lane){
+        if(yPt > lane.topY && yPt < lane.bottomY){
+            console.log("    In Lane " + lane.id);
+
+        }
+    });
 };
 
 /**************************************************
@@ -219,12 +236,14 @@ function initLanes(){
     // initialize score lane
     gameLanes[i] = new Lane((i*laneHeight),(i*laneHeight)+laneHeight);
     gameLanes[i].safetyZone = "score";
+    gameLanes[i].id = i;
     //
     // Set up enemy lanes
     //
     for(i = 1; i < 3/*number of danger lanes*/;i++){
         gameLanes[i] = new Lane((i*laneHeight),(i*laneHeight)+laneHeight);
         gameLanes[i].safetyZone = "danger";
+        gameLanes[i].id = i;
     }
     //
     // Set up the safe lanes
@@ -232,6 +251,7 @@ function initLanes(){
     for(; i < totalLanes; i++){
         gameLanes[i] = new Lane((i*laneHeight),(i*laneHeight)+laneHeight);
         gameLanes[i].safetyZone = "safe";
+        gameLanes[i].id = i;
     }
 };
 //
