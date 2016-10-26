@@ -32,7 +32,7 @@ var enemyLaneMax = 3;
 //
 // Visible Game area limits
 //
-var bottomWall = 500;
+var bottomWall = 490;
 var rightWall = 600;
 //
 // Number of enemies on current level
@@ -147,7 +147,7 @@ var Player = function(){
     // Initial y location for player
     this.y = 450;
     // Lane the player is in
-    this.currentLane = null;
+    this.currentLane = 5;
 };
 //
 Player.prototype.update = function(dt){
@@ -177,7 +177,12 @@ Player.prototype.handleInput = function(key){
         if(this.y > 50){
             // decrement y
             this.y -= advanceFactor;
-
+        }
+        // Check Lane
+        if(this.y < gameLanes[this.currentLane].topY){
+            console.log("Go to next lane");
+            this.currentLane--;
+            console.log(" New lane: " + this.currentLane);
         }
         break;
         case 'right':
@@ -201,6 +206,12 @@ Player.prototype.handleInput = function(key){
             this.y = (bottomWall - 100);
             // TODO:  call for a flip of icon
         }
+        // Check for lane change
+        if(this.y > gameLanes[this.currentLane].bottomY){
+            console.log("Up Lane");
+            this.currentLane++;
+            console.log("Current Lane " + this.currentLane);
+        }
         break;
         case 'jump':
         this.y -= 100;
@@ -208,20 +219,23 @@ Player.prototype.handleInput = function(key){
         default:
         console.log("Not valid input");
     }
-    // Check current lane
+    // console.log("Hansdle - current Player Lane " + this.currentLane);
+    // Set lane
+    // this.currentLane = this.setLane(this.currentLane,this.y);
 
-    // Set new lane
-    this.setLane(this.y);
 };
 //
-Player.prototype.setLane = function(yPt){
+// Set the players lane based on the given y parameter
+//
+Player.prototype.setLane = function(pLane,yPt){
     // Go through lane array to compare Y location
     gameLanes.forEach(function(lane){
         if(yPt > lane.topY && yPt < lane.bottomY){
             console.log("    In Lane " + lane.id);
-
+            return lane.id;
         }
-    });
+    })
+    return pLane;
 };
 
 /**************************************************
@@ -276,6 +290,7 @@ function initEnemies(){
 // Place the player object in a variable called player
 //
 var player = new Player();
+console.log("player " + player.currentLane);
 //
 
 
@@ -328,6 +343,9 @@ function initText (context){
     context.lineWidth = 3;
 }
 
+function checkCollisions(){
+    // console.log("check collisions, Player lane " + player.currentLane);
+};
 /***************************************************************
 //
 //       STARTUP AND INIT FUNCTIONS
