@@ -203,45 +203,35 @@ Player.prototype.handleInput = function(key){
             this.y -= advanceFactor;
         }
 
-        // If the current lane becomes zero Score increases
+        // If the current lane becomes zero, the Score increases
         if(this.currentLane == 0){
-            console.log("Increase score");
             gameScore++;
             setScore(gameScore);
-        // Compare current position with the next lanes tracke
+        // Otherwise, Compare the current position with the next lanes tracke
         }else if(this.y < gameLanes[this.currentLane-1].track){
             // If player is past the next lanes center track move to the next lane.
-            console.log("Go to next lane; track " + gameLanes[this.currentLane].track + " pY " + this.y);
             this.currentLane--;
-            console.log(" New lane: " + this.currentLane);
         }
         break;
         case 'right':
-        // var tmp = this.x;
-        // console.log("Right, canvas width: " + tmp);
         // If not all the way right
         if(this.x < (rightWall - 186)){
             // Increment x
             this.x += advanceFactor;
         }
         break;
-        case 'down':
-        // var tmp = this.y;
-        // console.log("down: " + tmp);
         // If not at bottom
         if(this.y < bottomWall){
             // Increment y
             this.y += advanceFactor;
-        }else{
+        }else{// Otherwise assume player is at the bottom and bounce the icon back.
             // bounce back
             this.y = (bottomWall - 100);
             // TODO:  call for a flip of icon
         }
         // Check for lane change
         if(this.y > gameLanes[this.currentLane].track){
-            console.log("Up Lane");
             this.currentLane++;
-            console.log("Current Lane " + this.currentLane);
         }
         break;
         case 'jump':
