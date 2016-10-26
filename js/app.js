@@ -202,17 +202,18 @@ Player.prototype.handleInput = function(key){
             // decrement y
             this.y -= advanceFactor;
         }
-        // Check Lane
-        if(this.y < gameLanes[this.currentLane-1].track){
-            console.log("Go to next lane; track " + gameLanes[this.currentLane].track + " pY " + this.y);
-            this.currentLane--;
-            console.log(" New lane: " + this.currentLane);
-        }
+
         // If the current lane becomes zero Score increases
         if(this.currentLane == 0){
             console.log("Increase score");
             gameScore++;
             setScore(gameScore);
+        // Compare current position with the next lanes tracke
+        }else if(this.y < gameLanes[this.currentLane-1].track){
+            // If player is past the next lanes center track move to the next lane.
+            console.log("Go to next lane; track " + gameLanes[this.currentLane].track + " pY " + this.y);
+            this.currentLane--;
+            console.log(" New lane: " + this.currentLane);
         }
         break;
         case 'right':
