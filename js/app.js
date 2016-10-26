@@ -35,6 +35,11 @@ var enemyLaneMax = 3;
 var bottomWall = 490;
 var rightWall = 600;
 //
+// Column center X values
+//  These values correspond to the player x value
+//  that puts the player icon in the center of a column
+var columnCenters = [0,100,200,300,400];
+//
 // Number of enemies on current level
 //
 var enemyTotal = 4;
@@ -117,6 +122,7 @@ Enemy.prototype.update = function(dt) {
     } else {
         this.x = ++this.x;
         // console.log(enemySpeed);
+        checkCollisions();
     }
 
 };
@@ -202,7 +208,6 @@ Player.prototype.handleInput = function(key){
             // decrement y
             this.y -= advanceFactor;
         }
-
         // If the current lane becomes zero, the Score increases
         if(this.currentLane == 0){
             gameScore++;
@@ -231,6 +236,7 @@ Player.prototype.handleInput = function(key){
         }
         // Check for lane change
         if(this.y > gameLanes[this.currentLane].track){
+            // If player is past the next lanes center track move to the next lane.
             this.currentLane++;
         }
         break;
@@ -240,23 +246,6 @@ Player.prototype.handleInput = function(key){
         default:
         console.log("Not valid input");
     }
-    // console.log("Hansdle - current Player Lane " + this.currentLane);
-    // Set lane
-    // this.currentLane = this.setLane(this.currentLane,this.y);
-
-};
-//
-// Set the players lane based on the given y parameter
-//
-Player.prototype.setLane = function(pLane,yPt){
-    // Go through lane array to compare Y location
-    gameLanes.forEach(function(lane){
-        if(yPt > lane.topY && yPt < lane.bottomY){
-            console.log("    In Lane " + lane.id);
-            return lane.id;
-        }
-    })
-    return pLane;
 };
 
 /**************************************************
@@ -311,7 +300,6 @@ function initEnemies(){
 // Place the player object in a variable called player
 //
 var player = new Player();
-console.log("player " + player.currentLane);
 //
 
 
@@ -350,13 +338,13 @@ function setScore(newScore){
 };
 function redrawScore(score){
 
-}
+};
 //
 // Function to set up Meme text style
 //
 function initText (context){
     // Set font size and type
-    context.font = "36px Impact"
+    context.font = "36px Impact";
     context.textAlign = 'center';
     // Set outline color
     context.strokeStyle = "black";// this is the default color
@@ -366,10 +354,15 @@ function initText (context){
     context.lineWidth = 3;
     // Show initial score
     setScore(gameScore);
-}
+};
 
 function checkCollisions(){
-    // console.log("check collisions, Player lane " + player.currentLane);
+    // Check wheter player is in a danger Zone
+    console.log("safetyZone " + gameLanes[player.currentLane].safetyZone);
+    if(gameLanes[player.currentLane].safetyZone == "danger"){
+        console.log("check collisions, DANGER - Player lane " + player.currentLane);
+    }
+    //
 };
 /***************************************************************
 //
