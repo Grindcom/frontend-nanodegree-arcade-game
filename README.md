@@ -5,6 +5,8 @@ Use the arrow keys to move the player icon around the board.
 Get the player icon to the top lane (water) to get a point.
 ## Lives
 Player starts with 3 lives. If the player hits a bug or is run over by one they loose a life (heart).
+## Restart
+To restart the game, refresh the browser.
 
 
 Enemies start at random x locations as well as in random danger lanes (the cobble blocks). When the enemy finishes their track, they start again in a different, randomly selected track.
