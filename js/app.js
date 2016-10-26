@@ -179,10 +179,14 @@ Player.prototype.handleInput = function(key){
             this.y -= advanceFactor;
         }
         // Check Lane
-        if(this.y < gameLanes[this.currentLane].topY){
-            console.log("Go to next lane");
+        if(this.y < gameLanes[this.currentLane-1].track){
+            console.log("Go to next lane; track " + gameLanes[this.currentLane].track + " pY " + this.y);
             this.currentLane--;
             console.log(" New lane: " + this.currentLane);
+        }
+        // If the current lane becomes zero Score increases
+        if(this.currentLane == 0){
+            console.log("Increase score");
         }
         break;
         case 'right':
@@ -207,7 +211,7 @@ Player.prototype.handleInput = function(key){
             // TODO:  call for a flip of icon
         }
         // Check for lane change
-        if(this.y > gameLanes[this.currentLane].bottomY){
+        if(this.y > gameLanes[this.currentLane].track){
             console.log("Up Lane");
             this.currentLane++;
             console.log("Current Lane " + this.currentLane);
