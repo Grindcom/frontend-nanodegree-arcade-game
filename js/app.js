@@ -87,6 +87,29 @@ var Lane = function(t,b){
 
 /**************************************************
 //
+//      REWARD CLASS
+//
+***************************************************/
+var Gem = function(){
+    this.sprite = 'images/Rock.png';
+    this.x = 0;
+    this.y = 0;
+    this.currentLane = null;
+};
+//
+Gem.prototype.update = function(dt){
+
+};
+//
+Gem.prototype.render = function(){
+
+};
+//
+Gem.prototype.randLoc = function(){
+
+};
+/**************************************************
+//
 //      ENEMY CLASS
 //
 ***************************************************/
@@ -120,9 +143,7 @@ Enemy.prototype.update = function(dt) {
         // Increase the speed
         enemySpeed = (enemySpeed+1) * dt;
         // Change lane at random
-        var maxLanes = (gameLanes.length)-1;
-        var newLane = getRandomIntInclusive(enemyLaneMin,enemyLaneMax);
-        this.setLane(newLane);
+        this.setLane(getRandLane(enemyLaneMin,enemyLaneMax));
     } else {
         this.x = ++this.x;
         // console.log(enemySpeed);
@@ -137,9 +158,8 @@ Enemy.prototype.render = function() {
     // console.log("Enemy render...");
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     //
-    // ctx.drawImage(Resources.get('images/Heart-2-tiny.png'), 0, 0);
-    // ctx.drawImage(Resources.get('images/Heart-2-tiny.png'), 25, 0);
-    // ctx.drawImage(Resources.get('images/Heart-2-tiny.png'), 50, 0);
+    // Add gems.
+    //
 
 };
 
@@ -392,7 +412,24 @@ function initText (context){
     // Show initial score
     setScore(gameScore);
 };
-
+//
+/***************************************************************
+//
+//       OTHER HELPER FUNCTIONS
+//
+***************************************************************/
+//
+// Pick a random lane between the given parameters
+//  ( expect low is less than high)
+//
+function getRandLane(low,high){
+    var maxLanes = (gameLanes.length)-1;
+    var newLane = getRandomIntInclusive(low,high);
+    return newLane;
+};
+//
+// Check for player v. obstacle collisions
+//
 function checkCollisions(){
     // Make sure test is within array bounds
     //  if current lane is same as game lane size
