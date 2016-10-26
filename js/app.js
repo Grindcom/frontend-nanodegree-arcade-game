@@ -178,20 +178,23 @@ Player.prototype.update = function(dt){
 };
 //
 Player.prototype.render = function(){
-    //
-    // If player is in the score lane
-    //  move towards the score box
-    if(this.currentLane == 0){
-        if(this.x >= rightWall){
-            // Go back to start
-            this.startPosition();
-        }else{
-            // keep moving towards score box
-            this.x++;
+    // If there are lives left, render the player icon.
+    if(lives > 0){
+        //
+        // If player is in the score lane
+        //  move towards the score box
+        if(this.currentLane == 0){
+            if(this.x >= rightWall){
+                // Go back to start
+                this.startPosition();
+            }else{
+                // keep moving towards score box
+                this.x++;
+            }
         }
+        //
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
-    //
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 // Re-locate Player to default position
 Player.prototype.startPosition = function(){
@@ -222,7 +225,9 @@ Player.prototype.handleInput = function(key){
         }
         // If the current lane becomes zero, the Score increases
         if(this.currentLane == 0){
+            // Increase the score
             gameScore++;
+            // Send score to canvas
             setScore(gameScore);
             // Ignore input (until player.startPosition is called)
             ignoreInput = true;
