@@ -254,8 +254,11 @@ Player.prototype.handleInput = function(key){
             this.y = (bottomWall - 100);
             // TODO:  call for a flip of icon
         }
-        // Check for lane change
-        if(this.y > gameLanes[this.currentLane].track){
+        // Make sure the current lane is within the gameLanes array size
+        if(this.currentLane >= gameLanes.length){
+            this.currentLane--;
+            // Check for lane change
+        }else if(this.y > gameLanes[this.currentLane].track){
             // If player is past the next lanes center track move to the next lane.
             this.currentLane++;
         }
@@ -391,8 +394,13 @@ function initText (context){
 };
 
 function checkCollisions(){
+    // Make sure test is within array bounds
+    //  if current lane is same as game lane size
+    if( player.currentLane >= gameLanes.length ){
+        // Do nothing
+        return;
+    }
     // Check wheter player is in a danger Zone
-
     if(gameLanes[player.currentLane].safetyZone == "danger"){
         // Compare player position with enemies that are in the same lane
         allEnemies.forEach(function(enemy){
