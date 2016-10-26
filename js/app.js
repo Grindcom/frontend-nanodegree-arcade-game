@@ -52,6 +52,10 @@ var enemySpeed = 1;
 //
 var gameScore = 0;
 //
+// Lives at start of game
+//
+var lives = 3;
+//
 // Enemy lanes
 //
 var enemyLaneMin = 1;
@@ -129,23 +133,16 @@ Enemy.prototype.update = function(dt) {
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
+    showLife();
     // console.log("Enemy render...");
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     //
     // ctx.drawImage(Resources.get('images/Heart-2-tiny.png'), 0, 0);
     // ctx.drawImage(Resources.get('images/Heart-2-tiny.png'), 25, 0);
     // ctx.drawImage(Resources.get('images/Heart-2-tiny.png'), 50, 0);
-    showLife();
-};
-var pulse = false;
-var lives = 3;
-function showLife(){
-
-    for(var i = 0; i < lives; i++){
-        ctx.drawImage(Resources.get('images/Heart-2-tiny.png'), i*25, 0);
-    }
 
 };
+
 // Change lanes
 Enemy.prototype.setLane = function(lane){
     // if lane is in range
@@ -346,13 +343,24 @@ document.addEventListener('keyup', function(e) {
 function setScore(newScore){
     // Clear canvas so score text is clean
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.textAlign = "right";
     // Set the outside text and location
-    ctx.strokeText(newScore,canvas.width - 50, 35);
+    ctx.strokeText(newScore,canvas.width - 20, 35);
     // set the fill text and location
-    ctx.fillText(newScore,canvas.width - 50, 35);
+    ctx.fillText(newScore,canvas.width - 20, 35);
 };
 function redrawScore(score){
 
+};
+//
+// Show lives remaining
+//
+function showLife(){
+    var i;
+    for(i = 0; i < lives; i++){
+        ctx.drawImage(Resources.get('images/Heart-2-tiny.png'), i*25, 0);
+    }
+    //
 };
 //
 // Function to set up Meme text style
@@ -386,13 +394,16 @@ function checkCollisions(){
                 if(player.x > low && player.x < high){
                     // If in the kill zone send back to start
                     player.startPosition();
-                    // TODO: take one life away, if no lives say game over
                     lives--;
                     if(!lives){
-                        console.log("Game Over");
+                        // Send game over message with score
+                        setScore("Game Over! Your Score was " + gameScore)
+                        //
+                        return;
                     }
                     // Clear canvas so score text is clean
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    // ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    setScore(gameScore);
                     //
                     return;
                 }
@@ -420,7 +431,7 @@ window.onload = function(){
     // Initialize the score text
     initText(ctx);
     // Initialize the game score
-    gameScore = 3;
+    gameScore = 0;
     // Initialize lanes
     initLanes();
     // Initizlize the enemies array
