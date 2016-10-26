@@ -192,8 +192,6 @@ Player.prototype.render = function(){
     }
     //
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    //
-    // setScore(gameScore);
 };
 // Re-locate Player to default position
 Player.prototype.startPosition = function(){
@@ -405,7 +403,7 @@ function checkCollisions(){
                     lives--;
                     if(!lives){
                         // Send game over message with score
-                        setScore("Game Over! Your Score was " + gameScore)
+                        setScore("Game Over!  Your Score: " + gameScore)
                         //
                         return;
                     }
