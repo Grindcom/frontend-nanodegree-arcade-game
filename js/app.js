@@ -157,7 +157,7 @@ Player.prototype.update = function(dt){
 Player.prototype.render = function(){
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     //
-    setScore(gameScore);
+    // setScore(gameScore);
 };
 
 //
@@ -187,6 +187,8 @@ Player.prototype.handleInput = function(key){
         // If the current lane becomes zero Score increases
         if(this.currentLane == 0){
             console.log("Increase score");
+            gameScore++;
+            setScore(gameScore);
         }
         break;
         case 'right':
@@ -324,6 +326,8 @@ document.addEventListener('keyup', function(e) {
 // Set the score
 //
 function setScore(newScore){
+    // Clear canvas so score text is clean
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     // Set the outside text and location
     ctx.strokeText(newScore,canvas.width - 50, 35);
     // set the fill text and location
@@ -345,6 +349,8 @@ function initText (context){
     context.fillStyle = "white";// this is the default color
     // Set the stroke width
     context.lineWidth = 3;
+    // Show initial score
+    setScore(gameScore);
 }
 
 function checkCollisions(){
