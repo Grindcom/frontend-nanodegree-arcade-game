@@ -1,4 +1,12 @@
 # Arcage Game
+## Game Play
+Use the arrow keys to move the player icon around the board.
+## Scoring
+Get the player icon to the top lane (water) to get a point.
+## Lives
+Player starts with 3 lives. If the player hits a bug or is run over by one they loose a life (heart).
+
+
 Enemies start at random x locations as well as in random danger lanes (the cobble blocks). When the enemy finishes their track, they start again in a different, randomly selected track.
 Global variables for lane height and column width allow changes to the view of the game.  These are currently added to app.js  
 ### Add/change the following variables  
