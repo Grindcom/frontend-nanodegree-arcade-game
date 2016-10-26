@@ -52,6 +52,11 @@ var gameScore = 0;
 var enemyLaneMin = 1;
 var enemyLaneMax = 3;
 //
+// Player start position
+//
+var playerStartX = 200;
+var playerStartY = 450;
+//
 // Random postion generator
 //
 function randPos(){
@@ -96,6 +101,7 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     // console.log("Enemy Update: " + dt);
+    //
     // Check to see if enemy has hit the wall
     if(this.x >= rightWall){
         // TODO:  Set up a random delay before starting again
@@ -143,9 +149,9 @@ var Player = function(){
     // Initilize icon for player
     this.sprite = 'images/char-boy-2.png';
     // Initial x location for player
-    this.x = 200;
+    this.x = playerStartX;
     // Initial y location for player
-    this.y = 450;
+    this.y = playerStartY;
     // Lane the player is in
     this.currentLane = 5;
 };
@@ -155,12 +161,30 @@ Player.prototype.update = function(dt){
 };
 //
 Player.prototype.render = function(){
+    //
+    // If player is in the score lane
+    //  move towards the score box
+    if(this.currentLane == 0){
+        if(this.x >= rightWall){
+            // Go back to start
+            this.startPosition();
+        }else{
+            // keep moving towards score box
+            this.x++;
+        }
+    }
+    //
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     //
     // setScore(gameScore);
 };
-
-//
+// Re-locate Player to default position
+Player.prototype.startPosition = function(){
+    this.x = playerStartX;
+    this.y = playerStartY;
+    this.currentLane = 5;
+};
+// Interpret user input
 Player.prototype.handleInput = function(key){
     var advanceFactor = 10;
 
