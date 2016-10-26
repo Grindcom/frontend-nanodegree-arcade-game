@@ -94,19 +94,28 @@ var Gem = function(){
     this.sprite = 'images/Rock.png';
     this.x = 0;
     this.y = 0;
-    this.currentLane = null;
+    this.currentLane = null;// Lane to place gem into
+    this.upScore = 0;// Amount to multiply player score by.
+    this.hide = false;
 };
 //
 Gem.prototype.update = function(dt){
 
 };
 //
-Gem.prototype.render = function(){
-
+Gem.prototype.render = function() {
+    if(!this.hide){
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
 };
 //
 Gem.prototype.randLoc = function(){
-
+    // Set to a random Lane
+    this.currentLane = getRandLane(0,gameLanes.length - 1);
+    this.y = gameLanes[this.currentLane].track;
+    // set to a random column
+    var tmp = getRandLane(0,columnCenters.length -1);
+    this.x = columnCenters[tmp];
 };
 /**************************************************
 //
@@ -296,6 +305,32 @@ Player.prototype.handleInput = function(key){
 //      APP OPERATIONS
 //
 ***************************************************/
+var gems = [];
+function initGems(){
+    // set up Blue Gem
+    gems[0] = new Gem();
+    gems[0].sprite = 'images/Gem Blue-2.png';
+    gems[0].randLoc();
+    gems[0].upScore = 10;
+    // Set up Green Gem
+    gems[1] = new Gem();
+    gems[1].sprite = 'images/Gem Green-2.png';
+    gems[1].randLoc();
+    gems[1].upScore = 15;
+    // Set up Orange Gem
+    gems[2] = new Gem();
+    gems[2].sprite = 'images/Gem Orange-2.png';
+    gems[2].randLoc();
+    gems[2].upScore = 20;
+    // set up Rock
+    gems[3] = new Gem();
+    gems[3].sprite = 'images/Rock-2.png';
+    gems[3].randLoc();
+    gems[3].upScore = 0;//
+
+};
+
+
 // Now instantiate your objects.
 var gameLanes = [];
 function initLanes(){
@@ -396,22 +431,7 @@ function showLife(){
     }
     //
 };
-//
-// Function to set up Meme text style
-//
-function initText (context){
-    // Set font size and type
-    context.font = "36px Impact";
-    context.textAlign = 'center';
-    // Set outline color
-    context.strokeStyle = "black";// this is the default color
-    // Set fill color
-    context.fillStyle = "white";// this is the default color
-    // Set the stroke width
-    context.lineWidth = 3;
-    // Show initial score
-    setScore(gameScore);
-};
+
 //
 /***************************************************************
 //
@@ -478,6 +498,22 @@ function initLives(){
 
 };
 //
+// Function to set up Meme text style
+//
+function initText (context){
+    // Set font size and type
+    context.font = "36px Impact";
+    context.textAlign = 'center';
+    // Set outline color
+    context.strokeStyle = "black";// this is the default color
+    // Set fill color
+    context.fillStyle = "white";// this is the default color
+    // Set the stroke width
+    context.lineWidth = 3;
+    // Show initial score
+    setScore(gameScore);
+};
+//
 // When this page is loaded initialize the required variables
 //  and arrays
 //
@@ -492,6 +528,8 @@ window.onload = function(){
     initLanes();
     // Initizlize the enemies array
     initEnemies();
+    // Init Gems array
+    initGems();
 
 };
 /***************************************************************

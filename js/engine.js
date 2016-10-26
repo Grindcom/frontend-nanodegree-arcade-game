@@ -183,6 +183,10 @@ var Engine = (function(global) {
         });
 
         player.render();
+
+        gems.forEach(function(gem){
+            gem.render();
+        });
     }
 
     /* This function does nothing but it could have been a good place to
@@ -206,7 +210,11 @@ var Engine = (function(global) {
         'images/Heart.png',
         'images/Heart-2.png',
         'images/Heart-2-small.png',
-        'images/Heart-2-tiny.png'
+        'images/Heart-2-tiny.png',
+        'images/Gem Blue-2.png',
+        'images/Gem Green-2.png',
+        'images/Gem Orange-2.png',
+        'images/Rock-2.png'
     ]);
     Resources.onReady(init);
 
