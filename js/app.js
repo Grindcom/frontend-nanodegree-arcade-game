@@ -212,7 +212,7 @@ Player.prototype.handleInput = function(key){
         if(this.currentLane == 0){
             gameScore++;
             setScore(gameScore);
-        // Otherwise, Compare the current position with the next lanes tracke
+            // Otherwise, Compare the current position with the next lanes tracke
         }else if(this.y < gameLanes[this.currentLane-1].track){
             // If player is past the next lanes center track move to the next lane.
             this.currentLane--;
@@ -225,6 +225,7 @@ Player.prototype.handleInput = function(key){
             this.x += advanceFactor;
         }
         break;
+        case 'down':
         // If not at bottom
         if(this.y < bottomWall){
             // Increment y
@@ -264,7 +265,7 @@ function initLanes(){
     //
     // Set up enemy lanes
     //
-    for(i = 1; i < 3/*number of danger lanes*/;i++){
+    for(i = 1; i <= 3/*number of danger lanes*/;i++){
         gameLanes[i] = new Lane((i*laneHeight),(i*laneHeight)+laneHeight);
         gameLanes[i].safetyZone = "danger";
         gameLanes[i].id = i;
@@ -358,9 +359,21 @@ function initText (context){
 
 function checkCollisions(){
     // Check wheter player is in a danger Zone
-    console.log("safetyZone " + gameLanes[player.currentLane].safetyZone);
+
     if(gameLanes[player.currentLane].safetyZone == "danger"){
-        console.log("check collisions, DANGER - Player lane " + player.currentLane);
+        // Compare player position with enemies that are in the same lane
+        allEnemies.forEach(function(enemy){
+            // If the enemy and player are in the same lane
+            if(enemy.currentLane == player.currentLane){
+                // set a range where player is killed
+                var low = enemy.x - 75;
+                var high = enemy.x + 75;
+                // compare the players x position with the kill zone
+                if(player.x > low && player.x < high){
+                    player.startPosition();
+                }
+            }
+        });
     }
     //
 };
