@@ -117,7 +117,7 @@ Enemy.prototype.update = function(dt) {
         enemySpeed = (enemySpeed+1) * dt;
         // Change lane at random
         var maxLanes = (gameLanes.length)-1;
-        var newLane =getRandomIntInclusive(enemyLaneMin,enemyLaneMax);
+        var newLane = getRandomIntInclusive(enemyLaneMin,enemyLaneMax);
         this.setLane(newLane);
     } else {
         this.x = ++this.x;
@@ -131,6 +131,20 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     // console.log("Enemy render...");
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    //
+    // ctx.drawImage(Resources.get('images/Heart-2-tiny.png'), 0, 0);
+    // ctx.drawImage(Resources.get('images/Heart-2-tiny.png'), 25, 0);
+    // ctx.drawImage(Resources.get('images/Heart-2-tiny.png'), 50, 0);
+    showLife();
+};
+var pulse = false;
+var lives = 3;
+function showLife(){
+
+    for(var i = 0; i < lives; i++){
+        ctx.drawImage(Resources.get('images/Heart-2-tiny.png'), i*25, 0);
+    }
+
 };
 // Change lanes
 Enemy.prototype.setLane = function(lane){
@@ -370,7 +384,17 @@ function checkCollisions(){
                 var high = enemy.x + 75;
                 // compare the players x position with the kill zone
                 if(player.x > low && player.x < high){
+                    // If in the kill zone send back to start
                     player.startPosition();
+                    // TODO: take one life away, if no lives say game over
+                    lives--;
+                    if(!lives){
+                        console.log("Game Over");
+                    }
+                    // Clear canvas so score text is clean
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    //
+                    return;
                 }
             }
         });
@@ -382,11 +406,17 @@ function checkCollisions(){
 //       STARTUP AND INIT FUNCTIONS
 //
 ***************************************************************/
+function initLives(){
+    // console.log("Init Lives");
+
+};
 //
 // When this page is loaded initialize the required variables
 //  and arrays
 //
 window.onload = function(){
+    //
+    initLives();
     // Initialize the score text
     initText(ctx);
     // Initialize the game score
@@ -395,6 +425,7 @@ window.onload = function(){
     initLanes();
     // Initizlize the enemies array
     initEnemies();
+
 };
 /***************************************************************
 //
