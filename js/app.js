@@ -200,8 +200,11 @@ Player.prototype.startPosition = function(){
     this.x = playerStartX;
     this.y = playerStartY;
     this.currentLane = 5;
+    // make sure input is accepted.
+    ignoreInput = false;
 };
 // Interpret user input
+var ignoreInput = false;
 Player.prototype.handleInput = function(key){
     var advanceFactor = 10;
 
@@ -223,6 +226,8 @@ Player.prototype.handleInput = function(key){
         if(this.currentLane == 0){
             gameScore++;
             setScore(gameScore);
+            // Ignore input (until player.startPosition is called)
+            ignoreInput = true;
             // Otherwise, Compare the current position with the next lanes tracke
         }else if(this.y < gameLanes[this.currentLane-1].track){
             // If player is past the next lanes center track move to the next lane.
@@ -329,7 +334,10 @@ document.addEventListener('keyup', function(e) {
     // Use this to find any key code
     // console.log("Key Listener: " + e.keyCode);
     // Call for an action
-    player.handleInput(allowedKeys[e.keyCode]);
+    if(!ignoreInput){
+        player.handleInput(allowedKeys[e.keyCode]);
+    }
+
 });
 
 /***************************************************************
