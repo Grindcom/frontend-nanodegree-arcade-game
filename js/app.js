@@ -11,16 +11,17 @@
 //
 ************************************/
 // Set the lane height for the game
-var laneHeight = 83;
+
+var LANEHEIGHT = 83;
 // Set the row height for the game
-var columnWidth = 101;
+var COLUMNWIDTH = 101;
 // Total lanes including danger and safe, set by engine.js
 var totalLanes = 1;
 // Total columns, set by engin.js
 var totalColumns = 0;
 //
-var enemyLaneMin = 0;
-var enemyLaneMax = 3;
+var ENEMY_LANE_MIN = 0;
+var ENEMY_LANE_MAX = 3;
 
 /**********************************
 //
@@ -30,17 +31,17 @@ var enemyLaneMax = 3;
 //
 // Visible Game area limits
 //
-var bottomWall = 490;
-var rightWall = 600;
+var BOTTOMWALL = 490;
+var RIGHTWALL = 600;
 //
 // Column center X values
 //  These values correspond to the player x value
 //  that puts the player icon in the center of a column
-var columnCenters = [0,100,200,300,400];
+var COLUMN_CENTERS = [0,100,200,300,400];
 //
 // Number of enemies on current level
 //
-var enemyTotal = 4;
+var ENEMY_TOTAL = 4;
 //
 // Enemy speed
 //
@@ -52,17 +53,17 @@ var gameScore = 0;
 //
 // Lives at start of game
 //
-var lives = 3;
+var LIVES = 3;
 //
 // Enemy lanes
 //
-var enemyLaneMin = 1;
-var enemyLaneMax = 3;
+var ENEMY_LANE_MIN = 1;
+var ENEMY_LANE_MAX = 3;
 //
 // Player start position
 //
-var playerStartX = 200;
-var playerStartY = 450;
+var PLAYER_START_X = 200;
+var PLAYER_START_Y = 450;
 //
 // Random postion generator
 //
@@ -128,8 +129,8 @@ Gem.prototype.randLoc = function(){
     this.currentLane = getRandLane(0,gameLanes.length - 1);
     this.y = gameLanes[this.currentLane].track;
     // set to a random column
-    var tmp = getRandLane(0,columnCenters.length -1);
-    this.x = columnCenters[tmp];
+    var tmp = getRandLane(0,COLUMN_CENTERS.length -1);
+    this.x = COLUMN_CENTERS[tmp];
 };
 /**************************************************
 //
@@ -158,7 +159,7 @@ Enemy.prototype.update = function(dt) {
     // console.log("Enemy Update: " + dt);
     //
     // Check to see if enemy has hit the wall
-    if(this.x >= rightWall){
+    if(this.x >= RIGHTWALL){
         // TODO:  Set up a random delay before starting again
         // Move back to start
         this.x = 1 - randPos();
@@ -166,7 +167,7 @@ Enemy.prototype.update = function(dt) {
         // Increase the speed
         enemySpeed = (enemySpeed+1) * dt;
         // Change lane at random
-        this.setLane(getRandLane(enemyLaneMin,enemyLaneMax));
+        this.setLane(getRandLane(ENEMY_LANE_MIN,ENEMY_LANE_MAX));
     } else {
         this.x = ++this.x;
         // console.log(enemySpeed);
@@ -184,7 +185,7 @@ Enemy.prototype.render = function() {
 // Change lanes
 Enemy.prototype.setLane = function(lane){
     // if lane is in range
-    if(lane <= enemyLaneMax && lane >= enemyLaneMin){
+    if(lane <= ENEMY_LANE_MAX && lane >= ENEMY_LANE_MIN){
         // set new currentLane
         this.currentLane = lane;
     }
@@ -203,9 +204,9 @@ var Player = function(){
     // Initilize icon for player
     this.sprite = 'images/char-boy-2.png';
     // Initial x location for player
-    this.x = playerStartX;
+    this.x = PLAYER_START_X;
     // Initial y location for player
-    this.y = playerStartY;
+    this.y = PLAYER_START_Y;
     // Lane the player is in
     this.currentLane = 5;
 };
@@ -215,13 +216,13 @@ Player.prototype.update = function(dt){
 };
 //
 Player.prototype.render = function(){
-    // If there are lives left, render the player icon.
-    if(lives > 0){
+    // If there are LIVES left, render the player icon.
+    if(LIVES > 0){
         //
         // If player is in the score lane
         //  move towards the score box
         if(this.currentLane == 0){
-            if(this.x >= rightWall){
+            if(this.x >= RIGHTWALL){
                 // Go back to start
                 this.startPosition();
             }else{
@@ -235,8 +236,8 @@ Player.prototype.render = function(){
 };
 // Re-locate Player to default position
 Player.prototype.startPosition = function(){
-    this.x = playerStartX;
-    this.y = playerStartY;
+    this.x = PLAYER_START_X;
+    this.y = PLAYER_START_Y;
     this.currentLane = 5;
     // make sure input is accepted.
     ignoreInput = false;
@@ -276,19 +277,19 @@ Player.prototype.handleInput = function(key){
         break;
         case 'right':
         // If not all the way right
-        if(this.x < (rightWall - 186)){
+        if(this.x < (RIGHTWALL - 186)){
             // Increment x
             this.x += advanceFactor;
         }
         break;
         case 'down':
         // If not at bottom
-        if(this.y < bottomWall){
+        if(this.y < BOTTOMWALL){
             // Increment y
             this.y += advanceFactor;
         }else{// Otherwise assume player is at the bottom and bounce the icon back.
             // bounce back
-            this.y = (bottomWall - 100);
+            this.y = (BOTTOMWALL - 100);
             // TODO:  call for a flip of icon
         }
         // Make sure the current lane is within the gameLanes array size
@@ -344,14 +345,14 @@ var gameLanes = [];
 function initLanes(){
     var i = 0;
     // initialize score lane
-    gameLanes[i] = new Lane((i*laneHeight),(i*laneHeight)+laneHeight);
+    gameLanes[i] = new Lane((i*LANEHEIGHT),(i*LANEHEIGHT)+LANEHEIGHT);
     gameLanes[i].safetyZone = "score";
     gameLanes[i].id = i;
     //
     // Set up enemy lanes
     //
     for(i = 1; i <= 3/*number of danger lanes*/;i++){
-        gameLanes[i] = new Lane((i*laneHeight),(i*laneHeight)+laneHeight);
+        gameLanes[i] = new Lane((i*LANEHEIGHT),(i*LANEHEIGHT)+LANEHEIGHT);
         gameLanes[i].safetyZone = "danger";
         gameLanes[i].id = i;
     }
@@ -359,7 +360,7 @@ function initLanes(){
     // Set up the safe lanes
     //
     for(; i < totalLanes; i++){
-        gameLanes[i] = new Lane((i*laneHeight),(i*laneHeight)+laneHeight);
+        gameLanes[i] = new Lane((i*LANEHEIGHT),(i*LANEHEIGHT)+LANEHEIGHT);
         gameLanes[i].safetyZone = "safe";
         gameLanes[i].id = i;
     }
@@ -369,9 +370,9 @@ function initLanes(){
 //
 var allEnemies = [];
 function initEnemies(){
-    for(var i = 0; i < enemyTotal /*number of enemies*/; i++){
+    for(var i = 0; i < ENEMY_TOTAL /*number of enemies*/; i++){
         // Select one of the danger lanes at random
-        var selectedLane = getRandomIntInclusive(enemyLaneMin,enemyLaneMax);
+        var selectedLane = getRandomIntInclusive(ENEMY_LANE_MIN,ENEMY_LANE_MAX);
         // Make a new enemy object
         allEnemies[i] = new Enemy();
         // Place the enemy in a lane
@@ -430,11 +431,11 @@ function redrawScore(score){
 
 };
 //
-// Show lives remaining
+// Show LIVES remaining
 //
 function showLife(){
     var i;
-    for(i = 0; i < lives; i++){
+    for(i = 0; i < LIVES; i++){
         ctx.drawImage(Resources.get('images/Heart-2-tiny.png'), i*25, 0);
     }
     //
@@ -478,8 +479,8 @@ function checkCollisions(){
                 if(player.x > low && player.x < high){
                     // If in the kill zone send back to start
                     player.startPosition();
-                    lives--;
-                    if(!lives){
+                    LIVES--;
+                    if(!LIVES){
                         // Send game over message with score
                         setScore("Game Over!  Your Score: " + gameScore)
                         //
