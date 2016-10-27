@@ -32,6 +32,7 @@ Below are the most important aspects of these objects. (unless otherwise noted, 
 ### Gem
 1. The 'gems' array holds all the gems (one is a rock).  This array is initialized in 'initGems()'.
 2. After the initial rendering a gem in the 'gems' array will be hidden if it has been overrun by a player or bug.  A gem that is hidden will reappear, in a random place - set by a call to 'Gem.prototype.randLoc'.  The rapearance time is set in the 'Gem.prototype.update' function.
+3. Gems are randomly placed in any lane or column.
 
 ### Lane
 1. The 'gameLanes' array is initialized by 'initLanes()'.
