@@ -337,7 +337,7 @@ function initGems(){
     gems[3].randLoc();
     gems[3].upScore = 0;//
 
-};
+}
 
 
 // Now instantiate your objects.
@@ -364,7 +364,7 @@ function initLanes(){
         gameLanes[i].safetyZone = "safe";
         gameLanes[i].id = i;
     }
-};
+}
 //
 // Place all enemy objects in an array called allEnemies
 //
@@ -382,7 +382,7 @@ function initEnemies(){
         // Store the lane this enemy will be in
         allEnemies[i].currentLane = selectedLane;
     }
-};
+}
 //
 // Place the player object in a variable called player
 //
@@ -426,10 +426,8 @@ function setScore(newScore){
     ctx.strokeText(newScore,canvas.width - 20, 35);
     // set the fill text and location
     ctx.fillText(newScore,canvas.width - 20, 35);
-};
-function redrawScore(score){
+}
 
-};
 //
 // Show LIVES remaining
 //
@@ -439,7 +437,7 @@ function showLife(){
         ctx.drawImage(Resources.get('images/Heart-2-tiny.png'), i*25, 0);
     }
     //
-};
+}
 
 //
 /***************************************************************
@@ -455,7 +453,7 @@ function getRandLane(low,high){
     var maxLanes = (gameLanes.length)-1;
     var newLane = getRandomIntInclusive(low,high);
     return newLane;
-};
+}
 //
 // Check for player v. obstacle collisions
 //
@@ -536,16 +534,13 @@ function checkCollisions(){
         }
 
     });
-};
+}
 /***************************************************************
 //
 //       STARTUP AND INIT FUNCTIONS
 //
 ***************************************************************/
-function initLives(){
-    // console.log("Init Lives");
 
-};
 //
 // Function to set up Meme text style
 //
@@ -561,14 +556,13 @@ function initText (context){
     context.lineWidth = 3;
     // Show initial score
     setScore(gameScore);
-};
+}
 //
 // When this page is loaded initialize the required variables
 //  and arrays
 //
 window.onload = function(){
     //
-    initLives();
     // Initialize the score text
     initText(ctx);
     // Initialize the game score
