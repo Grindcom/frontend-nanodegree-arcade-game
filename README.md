@@ -4,7 +4,7 @@ Use the arrow keys to move the player icon around the board.
 ## Scoring
 Get the player icon to the top lane (water) to get a point.  Get a gem for bonus points.  Get a rock and loose all your points.
 ## Lives
-Player starts with 3 lives. If the player hits a bug or is run over by one they loose a life (heart).
+Player starts with 3 lives. If the player hits a bug or is run over by one, they loose a life (heart).
 ## Restart
 To restart the game, refresh the browser.
 
@@ -12,9 +12,10 @@ To restart the game, refresh the browser.
 Enemies start at random x locations as well as in random danger lanes (the cobble blocks). When the enemy finishes their track, they start again in a different, randomly selected track.
 Global variables for lane height and column width allow changes to the view of the game.  These are currently added to app.js  
 ## Code objects
-There are three objects for the app.  They all have two functions in common, although those are not necessarily implemented the same for each. Objects are drawn by calles from the engine.js file; 'renderEntities()' and 'updateEntities(dt)'
+There are three objects for the app.  They all have two functions in common, although those are not necessarily implemented the same for each. Objects are drawn by calles from the engine.js file; 'renderEntities()' and 'updateEntities(dt)'.  The initializers for all the objects are all called from the 'window.onload' function.
+Below are the most important aspects of these objects. (unless otherwise noted, the referenced functions are found in app.js)
 
-### Common variables
+### In Common variables
 1. All objects have a 'currentLane' variable which is used for collision detection.
 2. 'x' and 'y' location variables which are bounded by '0' and 'rightWall' for 'x' and '0'and 'bottomWall' for 'y'.  
 3. Each object has a 'sprite', which is the png icon for the object.  In the case of gems there is a different icon for each type.
@@ -29,6 +30,20 @@ There are three objects for the app.  They all have two functions in common, alt
 3. The Players 'handleInput()' function is called from the event listener that is set up in 'document.addEventListener(...)'.  The arrow keys are given variable names and used in a switch statement in 'handleInput()'.
 
 ### Gem
+1. The 'gems' array holds all the gems (one is a rock).  This array is initialized in 'initGems()'.
+2. After the initial rendering a gem in the 'gems' array will be hidden if it has been overrun by a player or bug.  A gem that is hidden will reappear, in a random place - set by a call to 'Gem.prototype.randLoc'.  The rapearance time is set in the 'Gem.prototype.update' function.
+
+### Lane
+1. The 'gameLanes' array is initialized by 'initLanes()'.
+2. Lanes can be of three types, 'safe', 'danger' and 'score'; indicated by the variable 'Lanes.safetyZone'.
+3. Lanes have an 'Lanes.id' variable that corresponds the their array position.  This can be used to compare the current lane position.
+
+### Helper functions
+1. `setScore(newScore)` Display the 'newScore'.
+2. `showLife()` Show the life hearts.
+3. `getRandLane(low,high)` Return a random integer between the low and high integers.
+4. `checkCollisions()`  Check for collisions between bug and player, bug and gem, player and gem.
+
 
 ### Add/change the following variables  
 * `var laneHeight` (default is 83)

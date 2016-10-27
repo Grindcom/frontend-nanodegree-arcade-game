@@ -102,9 +102,14 @@ var Gem = function(){
 Gem.prototype.update = function(dt){
     var tmp = dt*1000;
     if(this.lastTime > 0){
-        if(this.hide && (tmp - this.lastTime) > 20){
+        var timeInterval = 20;
+        // if hidden, show again after a time interval
+        if(this.hide && (tmp - this.lastTime) > timeInterval){
+            // set a random location
             this.randLoc();
+            // Make visible.
             this.hide = false;
+            // Record the time to compare later.
             this.lastTime = dt;
         }
     }else{
@@ -167,7 +172,6 @@ Enemy.prototype.update = function(dt) {
         // console.log(enemySpeed);
         checkCollisions();
     }
-
 };
 
 // Draw the enemy on the screen, required method for game
@@ -196,7 +200,6 @@ Enemy.prototype.setLane = function(lane){
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function(){
-
     // Initilize icon for player
     this.sprite = 'images/char-boy-2.png';
     // Initial x location for player
