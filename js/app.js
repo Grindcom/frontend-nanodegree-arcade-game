@@ -70,7 +70,7 @@ var PLAYER_START_Y = 450;
 function randPos(){
     var rnd = Math.floor(Math.random() * 100);
     return rnd + 100;
-};
+}
 /*************************************************
 //
 //      LANE CLASS
@@ -427,7 +427,9 @@ function setScore(newScore){
     // set the fill text and location
     ctx.fillText(newScore,canvas.width - 20, 35);
 };
+function redrawScore(score){
 
+};
 //
 // Show LIVES remaining
 //
@@ -540,6 +542,10 @@ function checkCollisions(){
 //       STARTUP AND INIT FUNCTIONS
 //
 ***************************************************************/
+function initLives(){
+    // console.log("Init Lives");
+
+};
 //
 // Function to set up Meme text style
 //
@@ -587,4 +593,4 @@ function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
-};
+}
