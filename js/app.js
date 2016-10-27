@@ -1,9 +1,7 @@
 // TODO: Add score in top right
 // TODO: Add enemy drop down column at random points feature
 // TODO: Add shake block feature
-// TODO: Add gems for bonus score(?); enemy drops and picks up
 // TODO: Review projet rubric and compare with progress
-// TODO: Add collision test
 
 
 
@@ -104,7 +102,7 @@ var Gem = function(){
 Gem.prototype.update = function(dt){
     var tmp = dt*1000;
     if(this.lastTime > 0){
-        if(this.hide && (tmp - this.lastTime) > 100){
+        if(this.hide && (tmp - this.lastTime) > 20){
             this.randLoc();
             this.hide = false;
             this.lastTime = dt;
@@ -177,10 +175,6 @@ Enemy.prototype.render = function() {
     showLife();
     // console.log("Enemy render...");
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    //
-    // Add gems.
-    //
-
 };
 
 // Change lanes
