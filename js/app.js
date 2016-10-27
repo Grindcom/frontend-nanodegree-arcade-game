@@ -83,6 +83,7 @@ var Lane = function(t,b){
     this.bottomY = b;
     this.track = ((b+t)/2) + 12;// set to middle of lane
     this.safetyZone = "unknown";
+
 };
 
 /**************************************************
@@ -97,10 +98,20 @@ var Gem = function(){
     this.currentLane = null;// Lane to place gem into
     this.upScore = 0;// Amount to multiply player score by.
     this.hide = false;
+    this.lastTime = 0;
 };
 //
 Gem.prototype.update = function(dt){
-
+    var tmp = dt*1000;
+    if(this.lastTime > 0){
+        if(this.hide && (tmp - this.lastTime) > 100){
+            this.randLoc();
+            this.hide = false;
+            this.lastTime = dt;
+        }
+    }else{
+        this.lastTime = tmp;
+    }
 };
 //
 Gem.prototype.render = function() {
@@ -487,6 +498,46 @@ function checkCollisions(){
         });
     }
     //
+    // Check for collisions with gems
+    //  Bugs make gems hide and a player
+    //  collision affects score.
+    gems.forEach(function(gem){
+        var low = gem.x - 75;
+        var high = gem.x + 75;
+        // If the gem isn't hidden see if
+        //  it is in a collision zone.
+        if(!gem.hide){
+            // Check against player first
+            //  Are they in the same lane?
+            if(gem.currentLane == player.currentLane){
+                if(player.x > low && player.x < high){
+                    // Make sure score can increase if possible
+                    if(gameScore <= 0){
+                        gameScore = 1;
+                    }
+                    // multiply current score by the gems bonus amount
+                    gameScore = gameScore * gem.upScore;
+                    setScore(gameScore);
+                    // Hide this gem,
+                    gem.hide = true;
+                }
+            }
+            // Check against all Bugs
+            //
+            allEnemies.forEach(function(enemy){
+                // Are they in the same lane?
+                if(gem.currentLane == enemy.currentLane){
+                    // if they are in same square
+                    if(enemy.x > low && enemy.x < high){
+                        // Hide the gem.
+                        gem.hide = true;
+                    }
+                }
+            });
+
+        }
+
+    });
 };
 /***************************************************************
 //
