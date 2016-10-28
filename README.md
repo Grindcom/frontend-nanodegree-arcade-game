@@ -1,4 +1,15 @@
 # Arcage Game
+## Getting Started
+Before you can play you have to download the related files and folders from the repository (`https://github.com/Grindcom/frontend-nanodegree-arcade-game`), place them in a local folder.
+Make sure you have them all:
+1. `README.md`
+2. `index.html`
+3. css (folder)
+4. images (folder)
+5. js (folder)  
+You can name your local folder anything, but the above file structure must rename the same.  
+Once you have the files downloaded, open the `index.html` file in any browser.  The game will start automatically.  
+
 ## Game Play
 Use the arrow keys to move the player icon around the board.
 ## Scoring
