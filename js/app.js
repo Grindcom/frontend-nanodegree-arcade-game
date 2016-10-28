@@ -243,7 +243,7 @@ Player.prototype.startPosition = function(){
     ignoreInput = false;
 };
 // Interpret user input
-var ignoreInput = false;
+var ignoreInput = Boolean(false);
 Player.prototype.handleInput = function(key){
     var advanceFactor = 10;
 
