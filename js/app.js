@@ -307,6 +307,11 @@ Player.prototype.handleInput = function(key) {
     }
 };
 
+//
+// Place the player object in a variable called player
+//
+var player = new Player();
+//
 /**************************************************
 //
 //      APP OPERATIONS
@@ -384,11 +389,7 @@ function initEnemies() {
         allEnemies[i].currentLane = selectedLane;
     }
 }
-//
-// Place the player object in a variable called player
-//
-var player = new Player();
-//
+
 
 
 
