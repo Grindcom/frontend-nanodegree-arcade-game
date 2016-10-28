@@ -1,7 +1,7 @@
 # Arcage Game
 ## Getting Started
 Before you can play you have to download the related files and folders from the repository (`https://github.com/Grindcom/frontend-nanodegree-arcade-game`), place them in a local folder.
-Make sure you have them all;  
+Make sure you have them all.  
 1. `README.md`
 2. `index.html`
 3. css (folder)
