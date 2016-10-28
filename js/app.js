@@ -3,6 +3,8 @@
 // TODO: Add shake block feature
 // TODO: Review projet rubric and compare with progress
 
+'use strict';
+
 
 
 /**********************************
@@ -162,7 +164,7 @@ Enemy.prototype.update = function(dt) {
     if(this.x >= RIGHTWALL){
         // TODO:  Set up a random delay before starting again
         // Move back to start
-        this.x = 1 - randPos();
+        this.x = 1 - Math.floor(Math.random() * 100);
         // console.log(this.x);
         // Increase the speed
         enemySpeed = (enemySpeed+1) * dt;
@@ -378,7 +380,7 @@ function initEnemies(){
         // Place the enemy in a lane
         allEnemies[i].y = gameLanes[selectedLane].track;//i*90 + 50;
         // Randomly place the enemy on the x axis
-        allEnemies[i].x = randPos()*i;
+        allEnemies[i].x = (Math.floor(Math.random() * 100) + 100) * i;
         // Store the lane this enemy will be in
         allEnemies[i].currentLane = selectedLane;
     }
