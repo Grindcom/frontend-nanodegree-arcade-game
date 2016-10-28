@@ -210,7 +210,7 @@ var Player = function() {
 };
 //
 Player.prototype.update = function(dt) {
-    checkCollisions();
+    this.checkCollisions();
 };
 //
 Player.prototype.render = function() {
@@ -232,6 +232,90 @@ Player.prototype.render = function() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 };
+//
+// Check for player v. obstacle collisions
+//  This function requires three Global Arrays be present
+//      Must have: gameLanes[], allEnemies[] and gems[]
+//      And variables gameScore, lives
+Player.prototype.checkCollisions = function () {
+    // Make sure test is within array bounds
+    //  if current lane is same as game lane size
+    if (this.currentLane >= gameLanes.length) {
+        // Do nothing
+        return;
+    }
+    // Check wheter player is in a danger Zone
+    if (gameLanes[this.currentLane].safetyZone == "danger") {
+        // Compare player position with enemies that are in the same lane
+        allEnemies.forEach(function(enemy) {
+            // If the enemy and player are in the same lane
+            if (enemy.currentLane == this.currentLane) {
+                // set a range where player is killed
+                var low = enemy.x - 75;
+                var high = enemy.x + 75;
+                // compare the players x position with the kill zone
+                if (this.x > low && this.x < high) {
+                    // If in the kill zone send back to start
+                    this.startPosition();
+                    lives--;
+                    if (!lives) {
+                        // Send game over message with score
+                        setScore("Game Over!  Your Score: " + gameScore)
+                            //
+                        return;
+                    }
+                    // Clear canvas so score text is clean
+                    // ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    setScore(gameScore);
+                    //
+                    return;
+                }
+            }
+        });
+    }
+    //
+    // Check for collisions with gems
+    //  Bugs make gems hide and a player
+    //  collision affects score.
+    gems.forEach(function(gem) {
+
+        var low = gem.x - 75;
+        var high = gem.x + 75;
+        // If the gem isn't hidden see if
+        //  it is in a collision zone.
+        if (!gem.hide) {
+            // Check against player first
+            //  Are they in the same lane?
+            if (gem.currentLane == this.currentLane) {
+                if (this.x > low && this.x < high) {
+                    // Make sure score can increase if possible
+                    if (gameScore <= 0) {
+                        gameScore = 1;
+                    }
+                    // multiply current score by the gems bonus amount
+                    gameScore = gameScore * gem.upScore;
+                    setScore(gameScore);
+                    // Hide this gem,
+                    gem.hide = true;
+                }
+            }
+            // Check against all Bugs
+            //
+            allEnemies.forEach(function(enemy) {
+                // Are they in the same lane?
+                if (gem.currentLane == enemy.currentLane) {
+                    // if they are in same square
+                    if (enemy.x > low && enemy.x < high) {
+                        // Hide the gem.
+                        gem.hide = true;
+                    }
+                }
+            });
+
+        }
+    },this);// To pass 'this' to inside scope of the forEach
+}
+//
 // Re-locate Player to default position
 Player.prototype.startPosition = function() {
     this.x = PLAYER_START_X;
@@ -390,9 +474,6 @@ function initEnemies() {
     }
 }
 
-
-
-
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
@@ -456,87 +537,7 @@ function getRandLane(low, high) {
     var newLane = getRandomIntInclusive(low, high);
     return newLane;
 }
-//
-// Check for player v. obstacle collisions
-//
-function checkCollisions() {
-    // Make sure test is within array bounds
-    //  if current lane is same as game lane size
-    if (player.currentLane >= gameLanes.length) {
-        // Do nothing
-        return;
-    }
-    // Check wheter player is in a danger Zone
-    if (gameLanes[player.currentLane].safetyZone == "danger") {
-        // Compare player position with enemies that are in the same lane
-        allEnemies.forEach(function(enemy) {
-            // If the enemy and player are in the same lane
-            if (enemy.currentLane == player.currentLane) {
-                // set a range where player is killed
-                var low = enemy.x - 75;
-                var high = enemy.x + 75;
-                // compare the players x position with the kill zone
-                if (player.x > low && player.x < high) {
-                    // If in the kill zone send back to start
-                    player.startPosition();
-                    lives--;
-                    if (!lives) {
-                        // Send game over message with score
-                        setScore("Game Over!  Your Score: " + gameScore)
-                            //
-                        return;
-                    }
-                    // Clear canvas so score text is clean
-                    // ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    setScore(gameScore);
-                    //
-                    return;
-                }
-            }
-        });
-    }
-    //
-    // Check for collisions with gems
-    //  Bugs make gems hide and a player
-    //  collision affects score.
-    gems.forEach(function(gem) {
-        var low = gem.x - 75;
-        var high = gem.x + 75;
-        // If the gem isn't hidden see if
-        //  it is in a collision zone.
-        if (!gem.hide) {
-            // Check against player first
-            //  Are they in the same lane?
-            if (gem.currentLane == player.currentLane) {
-                if (player.x > low && player.x < high) {
-                    // Make sure score can increase if possible
-                    if (gameScore <= 0) {
-                        gameScore = 1;
-                    }
-                    // multiply current score by the gems bonus amount
-                    gameScore = gameScore * gem.upScore;
-                    setScore(gameScore);
-                    // Hide this gem,
-                    gem.hide = true;
-                }
-            }
-            // Check against all Bugs
-            //
-            allEnemies.forEach(function(enemy) {
-                // Are they in the same lane?
-                if (gem.currentLane == enemy.currentLane) {
-                    // if they are in same square
-                    if (enemy.x > low && enemy.x < high) {
-                        // Hide the gem.
-                        gem.hide = true;
-                    }
-                }
-            });
 
-        }
-
-    });
-}
 /***************************************************************
 //
 //       STARTUP AND INIT FUNCTIONS
