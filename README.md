@@ -1,7 +1,7 @@
 # Arcage Game
 ## Getting Started
 Before you can play you have to download the related files and folders from the repository (`https://github.com/Grindcom/frontend-nanodegree-arcade-game`), place them in a local folder.
-Make sure you have them all;
+Make sure you have them all;  
 1. `README.md`
 2. `index.html`
 3. css (folder)
@@ -56,10 +56,6 @@ Below are the most important aspects of these objects. (unless otherwise noted, 
 3. `getRandLane(low,high)` Return a random integer between the low and high integers.
 4. `checkCollisions()`  Check for collisions between bug and player, bug and gem, player and gem.
 
-
-### Add/change the following variables  
-* `var laneHeight` (default is 83)
-* `var columnWidth` (default is 101)
 
 ## This is now a Fork of Udacity's arcade game
 frontend-nanodegree-arcade-game
