@@ -21,9 +21,7 @@ var COLUMNWIDTH = 101;
 var totalLanes = 1;
 // Total columns, set by engin.js
 var totalColumns = 0;
-//
-var ENEMY_LANE_MIN = 0;
-var ENEMY_LANE_MAX = 3;
+
 
 /**********************************
 //
@@ -55,7 +53,7 @@ var gameScore = 0;
 //
 // Lives at start of game
 //
-var LIVES = 3;
+var lives = 3;
 //
 // Enemy lanes
 //
@@ -216,12 +214,12 @@ Player.prototype.update = function(dt){
 };
 //
 Player.prototype.render = function(){
-    // If there are LIVES left, render the player icon.
-    if(LIVES > 0){
+    // If there are lives left, render the player icon.
+    if(lives > 0){
         //
         // If player is in the score lane
         //  move towards the score box
-        if(this.currentLane == 0){
+        if(this.currentLane === 0){
             if(this.x >= RIGHTWALL){
                 // Go back to start
                 this.startPosition();
@@ -429,11 +427,11 @@ function setScore(newScore){
 }
 
 //
-// Show LIVES remaining
+// Show lives remaining
 //
 function showLife(){
     var i;
-    for(i = 0; i < LIVES; i++){
+    for(i = 0; i < lives; i++){
         ctx.drawImage(Resources.get('images/Heart-2-tiny.png'), i*25, 0);
     }
     //
@@ -477,8 +475,8 @@ function checkCollisions(){
                 if(player.x > low && player.x < high){
                     // If in the kill zone send back to start
                     player.startPosition();
-                    LIVES--;
-                    if(!LIVES){
+                    lives--;
+                    if(!lives){
                         // Send game over message with score
                         setScore("Game Over!  Your Score: " + gameScore)
                         //
