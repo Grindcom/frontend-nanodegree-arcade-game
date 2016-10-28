@@ -172,8 +172,6 @@ Enemy.prototype.update = function(dt) {
         this.setLane(getRandLane(ENEMY_LANE_MIN,ENEMY_LANE_MAX));
     } else {
         this.x = ++this.x;
-        // console.log(enemySpeed);
-        checkCollisions();
     }
 };
 
@@ -214,7 +212,7 @@ var Player = function(){
 };
 //
 Player.prototype.update = function(dt){
-
+    checkCollisions();
 };
 //
 Player.prototype.render = function(){
