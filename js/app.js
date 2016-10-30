@@ -271,7 +271,7 @@ Player.prototype.checkCollisions = function () {
                     return;
                 }
             }
-        });
+        },this);
     }
     //
     // Check for collisions with gems
@@ -327,7 +327,7 @@ Player.prototype.startPosition = function() {
 // Interpret user input
 var ignoreInput = Boolean(false);
 Player.prototype.handleInput = function(key) {
-    var advanceFactor = 10;
+    var advanceFactor = 15;
 
     switch (key) {
         case 'left':
